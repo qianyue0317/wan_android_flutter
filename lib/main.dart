@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mmkv/mmkv.dart';
+import 'package:wan_android_flutter/utils/error_handle.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
+  handleError(() async {
+
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final rootDir = await MMKV.initialize();
+    WanLog.i("rootDir: ${rootDir}");
+
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
