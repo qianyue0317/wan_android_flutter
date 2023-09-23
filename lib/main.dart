@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mmkv/mmkv.dart';
+import 'package:wan_android_flutter/constants/constants.dart';
+import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/utils/error_handle.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
@@ -9,8 +11,12 @@ Future<void> main() async {
 
     WidgetsFlutterBinding.ensureInitialized();
 
+    // 初始化mmkv
     final rootDir = await MMKV.initialize();
-    WanLog.i("rootDir: ${rootDir}");
+    WanLog.i("mmkv rootDir: ${rootDir}");
+
+    // 初始化dio
+    configDio(baseUrl: Constant.baseUrl);
 
     runApp(const MyApp());
   });
