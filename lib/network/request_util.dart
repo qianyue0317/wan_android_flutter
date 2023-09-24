@@ -15,6 +15,7 @@ String _baseUrl = "";
 List<Interceptor> _interceptors = [];
 
 
+
 void configDio({
   Duration? connectTimeout,
   Duration? receiveTimeout,
