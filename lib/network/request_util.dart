@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
@@ -14,8 +15,6 @@ Duration _sendTimeout = const Duration(seconds: 10);
 String _baseUrl = "";
 List<Interceptor> _interceptors = [];
 
-
-
 void configDio({
   Duration? connectTimeout,
   Duration? receiveTimeout,
@@ -31,7 +30,6 @@ void configDio({
   _interceptors = interceptors ?? _interceptors;
 }
 
-
 class HttpGo {
   late Dio _dio;
 
@@ -41,13 +39,30 @@ class HttpGo {
 
   HttpGo._internal() {
     if (!configured) {
-        WanLog.w("you have not config the dio!");
+      WanLog.w("you have not config the dio!");
     }
     _dio = Dio(BaseOptions(
-      baseUrl: _baseUrl, connectTimeout: _connectTimeout, receiveTimeout: _receiveTimeout, sendTimeout: _sendTimeout
-    ));
+        baseUrl: _baseUrl,
+        connectTimeout: _connectTimeout,
+        receiveTimeout: _receiveTimeout,
+        sendTimeout: _sendTimeout));
   }
 
+  Future<AppResponse<T>?> request<T>(String url, String method,
+      {Object? data,
+      Map<String, dynamic>? queryParams,
+      CancelToken? cancelToken,
+      Options? options,
+      ProgressCallback? progressCallback,
+      ProgressCallback? receiveCallback}) async {
+    Response<String> response = await _dio.request(url,
+        data: data,
+        queryParameters: queryParams,
+        cancelToken: cancelToken,
+        options: options,
+        onSendProgress: progressCallback,
+        onReceiveProgress: receiveCallback);
+    dynamic res = json.decode(response.data.toString());
+    return null;
+  }
 }
-
-
