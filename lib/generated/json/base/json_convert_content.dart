@@ -18,8 +18,7 @@ class JsonConvert {
   static Map<String, JsonConvertFunction> get convertFuncMap =>
       {
         (ArticleItemEntity).toString(): ArticleItemEntity.fromJson,
-        (DataEntity).toString(): DataEntity.fromJson,
-        (ArticleItemEntity).toString(): ArticleItemEntity.fromJson,
+        (ArticleDataEntity).toString(): ArticleDataEntity.fromJson,
       };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -118,9 +117,9 @@ class JsonConvert {
       return data.map<ArticleItemEntity>((Map<String, dynamic> e) =>
           ArticleItemEntity.fromJson(e)).toList() as M;
     }
-    if (<DataEntity>[] is M) {
-      return data.map<DataEntity>((Map<String, dynamic> e) =>
-          DataEntity.fromJson(e)).toList() as M;
+    if (<ArticleDataEntity>[] is M) {
+      return data.map<ArticleDataEntity>((Map<String, dynamic> e) =>
+          ArticleDataEntity.fromJson(e)).toList() as M;
     }
     if (<ArticleItemEntity>[] is M) {
       return data.map<ArticleItemEntity>((Map<String, dynamic> e) =>

@@ -1,8 +1,8 @@
 import 'package:wan_android_flutter/generated/json/base/json_convert_content.dart';
 import 'package:wan_android_flutter/network/bean/data_entity.dart';
 
-DataEntity $DataEntityFromJson(Map<String, dynamic> json) {
-  final DataEntity dataEntity = DataEntity();
+ArticleDataEntity $DataEntityFromJson(Map<String, dynamic> json) {
+  final ArticleDataEntity dataEntity = ArticleDataEntity();
   final int? curPage = jsonConvert.convert<int>(json['curPage']);
   if (curPage != null) {
     dataEntity.curPage = curPage;
@@ -35,7 +35,7 @@ DataEntity $DataEntityFromJson(Map<String, dynamic> json) {
   return dataEntity;
 }
 
-Map<String, dynamic> $DataEntityToJson(DataEntity entity) {
+Map<String, dynamic> $DataEntityToJson(ArticleDataEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['curPage'] = entity.curPage;
   data['datas'] = entity.datas.map((v) => v.toJson()).toList();
@@ -47,8 +47,8 @@ Map<String, dynamic> $DataEntityToJson(DataEntity entity) {
   return data;
 }
 
-extension DataEntityExtension on DataEntity {
-  DataEntity copyWith({
+extension DataEntityExtension on ArticleDataEntity {
+  ArticleDataEntity copyWith({
     int? curPage,
     List<ArticleItemEntity>? datas,
     int? offset,
@@ -57,7 +57,7 @@ extension DataEntityExtension on DataEntity {
     int? size,
     int? total,
   }) {
-    return DataEntity()
+    return ArticleDataEntity()
       ..curPage = curPage ?? this.curPage
       ..datas = datas ?? this.datas
       ..offset = offset ?? this.offset

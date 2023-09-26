@@ -5,7 +5,7 @@ import 'dart:convert';
 export 'package:wan_android_flutter/generated/json/data_entity.g.dart';
 
 @JsonSerializable()
-class DataEntity {
+class ArticleDataEntity {
 	late int curPage;
 	late List<ArticleItemEntity> datas;
 	late int offset;
@@ -14,9 +14,9 @@ class DataEntity {
 	late int size;
 	late int total;
 
-	DataEntity();
+	ArticleDataEntity();
 
-	factory DataEntity.fromJson(Map<String, dynamic> json) => $DataEntityFromJson(json);
+	factory ArticleDataEntity.fromJson(Map<String, dynamic> json) => $DataEntityFromJson(json);
 
 	Map<String, dynamic> toJson() => $DataEntityToJson(this);
 
