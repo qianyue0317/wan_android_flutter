@@ -48,7 +48,7 @@ class HttpGo {
         sendTimeout: _sendTimeout));
   }
 
-  Future<AppResponse<T>?> request<T>(String url, String method,
+  Future<AppResponse<T>> request<T>(String url, String method,
       {Object? data,
       Map<String, dynamic>? queryParams,
       CancelToken? cancelToken,
@@ -62,7 +62,8 @@ class HttpGo {
         options: options,
         onSendProgress: progressCallback,
         onReceiveProgress: receiveCallback);
-    dynamic res = json.decode(response.data.toString());
-    return null;
+    Map<String, dynamic> map = json.decode(response.data.toString());
+    AppResponse<T> result = AppResponse.fromJson(map);
+    return result;
   }
 }
