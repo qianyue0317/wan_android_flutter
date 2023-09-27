@@ -31,7 +31,7 @@ class ArticleItemEntity {
 	late bool adminAdd;
 	late String apkLink;
 	late int audit;
-	late String author;
+	late String? author;
 	late bool canEdit;
 	late int chapterId;
 	late String chapterName;

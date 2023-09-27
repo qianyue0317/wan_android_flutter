@@ -14,9 +14,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> with BasePage<HomePage> {
-
   var _pageIndex = 0;
 
   List<ArticleItemEntity> _articleList = List.empty();
@@ -24,6 +22,11 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
+  @override
+  void initState() {
+    super.initState();
+    _refreshRequest();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +39,9 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
           return CustomScrollView(
             physics: physics,
             slivers: [
-              SliverList(delegate: SliverChildBuilderDelegate((context, index){
-                return Center(
-                  child: Text("条目：${_articleList[index].title}"),
-                );
+              SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                return _generateItemView(context, index);
               }, childCount: _articleList.length))
             ],
           );
@@ -48,22 +50,62 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
     );
   }
 
+  Widget _generateItemView(BuildContext context, int index) {
+    ArticleItemEntity itemEntity = _articleList[index];
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Card(
+          shadowColor: Colors.grey,
+          elevation: 8,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    if (itemEntity.type == 1)
+                      const Text(
+                        "置顶",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    Text(itemEntity.author?.isNotEmpty == true
+                        ? itemEntity.author!
+                        : itemEntity.shareUser)
+                  ],
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+
   void _refreshRequest() async {
     _pageIndex = 0;
-    AppResponse<ArticleDataEntity> res = await HttpGo.instance.get<
-        ArticleDataEntity>("${Api.homePage}$_pageIndex/json");
-    if (res.isSuccessful) {
-      setState(() {
-        _articleList = res.data?.datas ?? List.empty();
-      });
+
+    List<ArticleItemEntity> result = [];
+
+    AppResponse<List<ArticleItemEntity>> topRes =
+        await HttpGo.instance.get(Api.topArticle);
+    if (topRes.isSuccessful) {
+      result.addAll(topRes.data ?? List.empty());
     }
+
+    AppResponse<ArticleDataEntity> res = await HttpGo.instance
+        .get<ArticleDataEntity>("${Api.homePageArticle}$_pageIndex/json");
+    if (res.isSuccessful) {
+      result.addAll(res.data?.datas ?? List.empty());
+    }
+
+    setState(() {
+      _articleList = result;
+    });
     _refreshController.finishRefresh();
   }
 
   void _loadRequest() async {
     _pageIndex++;
-    AppResponse<ArticleDataEntity> res = await HttpGo.instance.get<
-        ArticleDataEntity>("${Api.homePage}$_pageIndex/json");
+    AppResponse<ArticleDataEntity> res = await HttpGo.instance
+        .get<ArticleDataEntity>("${Api.homePageArticle}$_pageIndex/json");
     if (res.isSuccessful) {
       setState(() {
         _articleList.addAll(res.data?.datas ?? List.empty());
