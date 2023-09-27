@@ -66,4 +66,70 @@ class HttpGo {
     AppResponse<T> result = AppResponse.fromJson(map);
     return result;
   }
+
+  Future<AppResponse<T>> get<T>(String url,
+      {Object? data,
+      Map<String, dynamic>? queryParams,
+      CancelToken? cancelToken,
+      Options? options,
+      ProgressCallback? progressCallback,
+      ProgressCallback? receiveCallback}) async {
+    return request(url, "GET",
+        data: data,
+        queryParams: queryParams,
+        cancelToken: cancelToken,
+        options: options,
+        progressCallback: progressCallback,
+        receiveCallback: receiveCallback);
+  }
+
+  Future<AppResponse<T>> post<T>(String url,
+      {Object? data,
+        Map<String, dynamic>? queryParams,
+        CancelToken? cancelToken,
+        Options? options,
+        ProgressCallback? progressCallback,
+        ProgressCallback? receiveCallback}) async {
+    return request(url, "POST",
+        data: data,
+        queryParams: queryParams,
+        cancelToken: cancelToken,
+        options: options,
+        progressCallback: progressCallback,
+        receiveCallback: receiveCallback);
+  }
+
+  Future<AppResponse<T>> delete<T>(String url,
+      {Object? data,
+        Map<String, dynamic>? queryParams,
+        CancelToken? cancelToken,
+        Options? options,
+        ProgressCallback? progressCallback,
+        ProgressCallback? receiveCallback}) async {
+    return request(url, "DELETE",
+        data: data,
+        queryParams: queryParams,
+        cancelToken: cancelToken,
+        options: options,
+        progressCallback: progressCallback,
+        receiveCallback: receiveCallback);
+  }
+
+
+  Future<AppResponse<T>> put<T>(String url,
+      {Object? data,
+        Map<String, dynamic>? queryParams,
+        CancelToken? cancelToken,
+        Options? options,
+        ProgressCallback? progressCallback,
+        ProgressCallback? receiveCallback}) async {
+    return request(url, "PUT",
+        data: data,
+        queryParams: queryParams,
+        cancelToken: cancelToken,
+        options: options,
+        progressCallback: progressCallback,
+        receiveCallback: receiveCallback);
+  }
+
 }

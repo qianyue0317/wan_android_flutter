@@ -1,3 +1,5 @@
+import 'package:wan_android_flutter/constants/constants.dart';
+
 import '../../generated/json/base/json_convert_content.dart';
 
 class AppResponse<T> {
@@ -28,4 +30,6 @@ class AppResponse<T> {
       return JsonConvert.fromJsonAsT<T>(json);
     }
   }
+
+  bool get isSuccessful  => errorCode == Constant.successCode;
 }

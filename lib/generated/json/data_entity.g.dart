@@ -1,5 +1,5 @@
 import 'package:wan_android_flutter/generated/json/base/json_convert_content.dart';
-import 'package:wan_android_flutter/network/bean/data_entity.dart';
+import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 
 ArticleDataEntity $DataEntityFromJson(Map<String, dynamic> json) {
   final ArticleDataEntity dataEntity = ArticleDataEntity();
