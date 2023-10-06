@@ -72,6 +72,16 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
                         ? itemEntity.author!
                         : itemEntity.shareUser)
                   ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                      itemEntity.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ))
+                  ],
                 )
               ],
             ),
