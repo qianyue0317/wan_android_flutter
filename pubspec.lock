@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  banner_carousel:
+    dependency: "direct main"
+    description:
+      name: banner_carousel
+      sha256: "816a2be32e04f4be73224754f4646b94cbf6e9aa062bed9577691fcc6d62b48e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   boolean_selector:
     dependency: transitive
     description:

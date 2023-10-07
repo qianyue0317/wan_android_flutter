@@ -1,5 +1,4 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
@@ -68,18 +67,46 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
                         "置顶",
                         style: TextStyle(color: Colors.red),
                       ),
-                    Text(itemEntity.author?.isNotEmpty == true
-                        ? itemEntity.author!
-                        : itemEntity.shareUser)
+                    Container(
+                      padding: itemEntity.type == 1
+                          ? const EdgeInsets.fromLTRB(8, 0, 0, 0)
+                          : const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Text(itemEntity.author?.isNotEmpty == true
+                          ? itemEntity.author!
+                          : itemEntity.shareUser),
+                    ),
+                    const Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text("2022-10-07 23:58"),
+                      ),
+                    )
                   ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        itemEntity.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ))
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
+                    Text("tabName"),
                     Expanded(
-                        child: Text(
-                      itemEntity.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                        child: Container(
+                      width: 24,
+                      height: 24,
+                      alignment: Alignment.topRight,
+                      child: Image.asset(itemEntity.collect
+                          ? "assets/images/icon_collect.png"
+                          : "assets/images/icon_uncollect.png"),
                     ))
                   ],
                 )
