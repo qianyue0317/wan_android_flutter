@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with BasePage<HomePage> {
+class _HomePageState extends State<HomePage> with BasePage<HomePage>, AutomaticKeepAliveClientMixin {
   var _pageIndex = 0;
 
   List<ArticleItemEntity> _articleList = List.empty();
@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: EasyRefresh.builder(
         controller: _refreshController,
@@ -41,8 +42,7 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                 return GestureDetector(
-                    onTap: () {
-                    }, child: _generateItemView(context, index));
+                    onTap: () {}, child: _generateItemView(context, index));
               }, childCount: _articleList.length))
             ],
           );
@@ -53,6 +53,8 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
 
   Widget _generateItemView(BuildContext context, int index) {
     ArticleItemEntity itemEntity = _articleList[index];
+    String publishTime = DateTime.fromMillisecondsSinceEpoch(itemEntity.publishTime).toString();
+    publishTime = publishTime.substring(0, publishTime.length - 4);
     StringBuffer sb = StringBuffer(itemEntity.superChapterName ?? "");
     if (sb.isNotEmpty &&
         itemEntity.chapterName != null &&
@@ -84,10 +86,10 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
                           ? itemEntity.author!
                           : itemEntity.shareUser),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text("2022-10-07 23:58"),
+                        child: Text(publishTime),
                       ),
                     )
                   ],
@@ -110,13 +112,20 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
                     Text(sb.toString()),
                     Expanded(
                         child: Container(
-                      width: 24,
-                      height: 24,
-                      alignment: Alignment.topRight,
-                      child: Image.asset(itemEntity.collect
-                          ? "assets/images/icon_collect.png"
-                          : "assets/images/icon_uncollect.png"),
-                    ))
+                            width: 24,
+                            height: 24,
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                // todo 点击收藏
+                                setState(() {
+                                  itemEntity.collect = !itemEntity.collect;
+                                });
+                              },
+                              child: Image.asset(itemEntity.collect
+                                  ? "assets/images/icon_collect.png"
+                                  : "assets/images/icon_uncollect.png"),
+                            )))
                   ],
                 )
               ],
@@ -159,4 +168,7 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
     }
     _refreshController.finishLoad();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
