@@ -40,7 +40,9 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
             slivers: [
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                return _generateItemView(context, index);
+                return GestureDetector(
+                    onTap: () {
+                    }, child: _generateItemView(context, index));
               }, childCount: _articleList.length))
             ],
           );
