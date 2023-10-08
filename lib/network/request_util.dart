@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+import "package:path_provider/path_provider.dart";
 import 'package:wan_android_flutter/utils/log_util.dart';
 
 import 'bean/AppResponse.dart';
@@ -46,6 +50,11 @@ class HttpGo {
         connectTimeout: _connectTimeout,
         receiveTimeout: _receiveTimeout,
         sendTimeout: _sendTimeout));
+    Future<Directory> dirResult = getApplicationDocumentsDirectory();
+    dirResult.then((value) {
+      _dio.interceptors.add(CookieManager(PersistCookieJar(storage: FileStorage("${value.path}/.cookies/"))));
+    });
+    _dio.interceptors.addAll(_interceptors);
   }
 
   Future<AppResponse<T>> request<T>(String url, String method,
@@ -85,11 +94,11 @@ class HttpGo {
 
   Future<AppResponse<T>> post<T>(String url,
       {Object? data,
-        Map<String, dynamic>? queryParams,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? progressCallback,
-        ProgressCallback? receiveCallback}) async {
+      Map<String, dynamic>? queryParams,
+      CancelToken? cancelToken,
+      Options? options,
+      ProgressCallback? progressCallback,
+      ProgressCallback? receiveCallback}) async {
     return request(url, "POST",
         data: data,
         queryParams: queryParams,
@@ -101,11 +110,11 @@ class HttpGo {
 
   Future<AppResponse<T>> delete<T>(String url,
       {Object? data,
-        Map<String, dynamic>? queryParams,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? progressCallback,
-        ProgressCallback? receiveCallback}) async {
+      Map<String, dynamic>? queryParams,
+      CancelToken? cancelToken,
+      Options? options,
+      ProgressCallback? progressCallback,
+      ProgressCallback? receiveCallback}) async {
     return request(url, "DELETE",
         data: data,
         queryParams: queryParams,
@@ -115,14 +124,13 @@ class HttpGo {
         receiveCallback: receiveCallback);
   }
 
-
   Future<AppResponse<T>> put<T>(String url,
       {Object? data,
-        Map<String, dynamic>? queryParams,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? progressCallback,
-        ProgressCallback? receiveCallback}) async {
+      Map<String, dynamic>? queryParams,
+      CancelToken? cancelToken,
+      Options? options,
+      ProgressCallback? progressCallback,
+      ProgressCallback? receiveCallback}) async {
     return request(url, "PUT",
         data: data,
         queryParams: queryParams,
@@ -131,5 +139,4 @@ class HttpGo {
         progressCallback: progressCallback,
         receiveCallback: receiveCallback);
   }
-
 }

@@ -51,6 +51,13 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
 
   Widget _generateItemView(BuildContext context, int index) {
     ArticleItemEntity itemEntity = _articleList[index];
+    StringBuffer sb = StringBuffer(itemEntity.superChapterName ?? "");
+    if (sb.isNotEmpty &&
+        itemEntity.chapterName != null &&
+        itemEntity.chapterName!.isNotEmpty) {
+      sb.write("·");
+    }
+    sb.write(itemEntity.chapterName ?? "");
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(
@@ -98,7 +105,7 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage> {
                 ),
                 Row(
                   children: [
-                    Text("tabName"),
+                    Text(sb.toString()),
                     Expanded(
                         child: Container(
                       width: 24,

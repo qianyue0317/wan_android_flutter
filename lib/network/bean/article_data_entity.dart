@@ -34,7 +34,7 @@ class ArticleItemEntity {
 	late String? author;
 	late bool canEdit;
 	late int chapterId;
-	late String chapterName;
+	late String? chapterName;
 	late bool collect;
 	late int courseId;
 	late String desc;
