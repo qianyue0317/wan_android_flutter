@@ -6,6 +6,7 @@ import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/tabpage/home_page.dart';
 import 'package:wan_android_flutter/tabpage/mine_page.dart';
 import 'package:wan_android_flutter/tabpage/plaza_page.dart';
+import 'package:wan_android_flutter/tabpage/project_page.dart';
 import 'package:wan_android_flutter/utils/error_handle.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
@@ -58,15 +59,17 @@ class _MainPageState extends State<MainPage> {
 
   final PageController _pageController = PageController(initialPage: 0);
 
-  final List<String> _titles = ["首页", "广场", "我的"];
+  final List<String> _titles = ["首页", "项目", "广场", "我的"];
   final List<Widget> _navIcons = [
     const Icon(Icons.home),
+    const Icon(Icons.ac_unit),
     const Icon(Icons.animation),
     const Icon(Icons.verified_user_rounded)
   ];
 
   final List<Widget> _pages = [
     const HomePage(),
+    const ProjectPage(),
     const PlazaPage(),
     const MinePage()
   ];
@@ -88,6 +91,12 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        iconSize: 24,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.grey,
         items: _generateBottomNavList(),
         currentIndex: _selectedItemIndex,
         onTap: _onNavItemTapped,

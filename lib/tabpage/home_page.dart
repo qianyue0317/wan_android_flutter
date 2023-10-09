@@ -1,9 +1,11 @@
+import 'package:banner_carousel/banner_carousel.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
 import 'package:wan_android_flutter/network/bean/AppResponse.dart';
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
+import 'package:wan_android_flutter/network/bean/banner_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,10 +15,13 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with BasePage<HomePage>, AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with BasePage<HomePage>, AutomaticKeepAliveClientMixin {
   var _pageIndex = 0;
 
   List<ArticleItemEntity> _articleList = List.empty();
+
+  List<BannerEntity>? bannerData;
 
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
@@ -39,6 +44,14 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage>, AutomaticK
           return CustomScrollView(
             physics: physics,
             slivers: [
+              if (bannerData != null && bannerData!.isNotEmpty)
+                SliverToBoxAdapter(
+                    child: BannerCarousel(
+                  banners: bannerData!
+                      .map((e) => BannerModel(
+                          imagePath: e.imagePath, id: e.id.toString()))
+                      .toList(),
+                )),
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                 return GestureDetector(
@@ -53,7 +66,8 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage>, AutomaticK
 
   Widget _generateItemView(BuildContext context, int index) {
     ArticleItemEntity itemEntity = _articleList[index];
-    String publishTime = DateTime.fromMillisecondsSinceEpoch(itemEntity.publishTime).toString();
+    String publishTime =
+        DateTime.fromMillisecondsSinceEpoch(itemEntity.publishTime).toString();
     publishTime = publishTime.substring(0, publishTime.length - 4);
     StringBuffer sb = StringBuffer(itemEntity.superChapterName ?? "");
     if (sb.isNotEmpty &&
@@ -138,6 +152,10 @@ class _HomePageState extends State<HomePage> with BasePage<HomePage>, AutomaticK
     _pageIndex = 0;
 
     List<ArticleItemEntity> result = [];
+
+    AppResponse<List<BannerEntity>> bannerRes =
+        await HttpGo.instance.get(Api.banner);
+    bannerData = bannerRes.data;
 
     AppResponse<List<ArticleItemEntity>> topRes =
         await HttpGo.instance.get(Api.topArticle);
