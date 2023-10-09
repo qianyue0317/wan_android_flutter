@@ -46,12 +46,14 @@ class _HomePageState extends State<HomePage>
             slivers: [
               if (bannerData != null && bannerData!.isNotEmpty)
                 SliverToBoxAdapter(
-                    child: BannerCarousel(
-                  banners: bannerData!
-                      .map((e) => BannerModel(
-                          imagePath: e.imagePath, id: e.id.toString()))
-                      .toList(),
-                )),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                        child: BannerCarousel(
+                          banners: bannerData!
+                              .map((e) => BannerModel(
+                                  imagePath: e.imagePath, id: e.id.toString()))
+                              .toList(),
+                        ))),
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                 return GestureDetector(
