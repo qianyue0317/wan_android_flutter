@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:mmkv/mmkv.dart';
 import 'package:wan_android_flutter/constants/constants.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
-import 'package:wan_android_flutter/tabpage/home_page.dart';
-import 'package:wan_android_flutter/tabpage/mine_page.dart';
-import 'package:wan_android_flutter/tabpage/plaza_page.dart';
-import 'package:wan_android_flutter/tabpage/project_page.dart';
+import 'package:wan_android_flutter/pages/tabpage/home_page.dart';
+import 'package:wan_android_flutter/pages/tabpage/mine_page.dart';
+import 'package:wan_android_flutter/pages/tabpage/plaza_page.dart';
+import 'package:wan_android_flutter/pages/tabpage/project_page.dart';
 import 'package:wan_android_flutter/utils/error_handle.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
@@ -79,10 +79,10 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(_currentTitle),
+        title: Text(_currentTitle, style: const TextStyle(color: Colors.white)),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Colors.white),
             tooltip: '搜索',
             onPressed: () {
               // todo 搜索页面实现
