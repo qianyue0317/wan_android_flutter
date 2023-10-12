@@ -9,6 +9,11 @@ class LoginRegisterPage extends StatefulWidget {
 
 class _LoginRegisterPageState extends State<LoginRegisterPage>
     with BasePage<LoginRegisterPage> {
+
+  _onButtonClick() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +62,10 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
                         borderRadius: BorderRadius.all(Radius.circular(4)))),
               ),
             ),
+            Container(
+              alignment: Alignment.center,
+              child: TextButton(onPressed: _onButtonClick, child: Text("登录")),
+            )
           ],
         ),
       ),
