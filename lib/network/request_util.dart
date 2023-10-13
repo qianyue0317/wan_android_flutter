@@ -46,13 +46,17 @@ class HttpGo {
       WanLog.w("you have not config the dio!");
     }
     _dio = Dio(BaseOptions(
+        //请求的Content-Type，默认值是"application/json; charset=utf-8",Headers.formUrlEncodedContentType会自动编码请求体.
+        contentType: Headers.formUrlEncodedContentType,
+        responseType: ResponseType.plain,
         baseUrl: _baseUrl,
         connectTimeout: _connectTimeout,
         receiveTimeout: _receiveTimeout,
         sendTimeout: _sendTimeout));
     Future<Directory> dirResult = getApplicationDocumentsDirectory();
     dirResult.then((value) {
-      _dio.interceptors.add(CookieManager(PersistCookieJar(storage: FileStorage("${value.path}/.cookies/"))));
+      _dio.interceptors.add(CookieManager(
+          PersistCookieJar(storage: FileStorage("${value.path}/.cookies/"))));
     });
     _dio.interceptors.addAll(_interceptors);
   }
@@ -68,7 +72,7 @@ class HttpGo {
         data: data,
         queryParameters: queryParams,
         cancelToken: cancelToken,
-        options: options,
+        options: (options ?? Options())..method = method,
         onSendProgress: progressCallback,
         onReceiveProgress: receiveCallback);
     Map<String, dynamic> map = json.decode(response.data.toString());

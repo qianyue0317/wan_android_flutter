@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/banner_entity.dart';
+import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 
@@ -21,6 +22,7 @@ class JsonConvert {
         (ArticleDataEntity).toString(): ArticleDataEntity.fromJson,
         (ArticleItemEntity).toString(): ArticleItemEntity.fromJson,
         (BannerEntity).toString(): BannerEntity.fromJson,
+        (UserInfoEntity).toString(): UserInfoEntity.fromJson,
       };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -126,6 +128,10 @@ class JsonConvert {
     if (<BannerEntity>[] is M) {
       return data.map<BannerEntity>((Map<String, dynamic> e) =>
           BannerEntity.fromJson(e)).toList() as M;
+    }
+    if (<UserInfoEntity>[] is M) {
+      return data.map<UserInfoEntity>((Map<String, dynamic> e) =>
+          UserInfoEntity.fromJson(e)).toList() as M;
     }
 
     debugPrint("${M.toString()} not found");

@@ -8,5 +8,8 @@ class Api {
 
   /// 获取banner
   static const String banner = "banner/json";
+
+  /// 登录
+  static const String login = "user/login";
 }
 

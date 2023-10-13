@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
+import 'package:wan_android_flutter/network/api.dart';
+import 'package:wan_android_flutter/network/bean/AppResponse.dart';
+import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
+import 'package:wan_android_flutter/network/request_util.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 
 class LoginRegisterPage extends StatefulWidget {
   @override
@@ -9,9 +14,20 @@ class LoginRegisterPage extends StatefulWidget {
 
 class _LoginRegisterPageState extends State<LoginRegisterPage>
     with BasePage<LoginRegisterPage> {
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
 
-  _onButtonClick() {
-
+  _onButtonClick() async {
+    WanLog.i("请求-----");
+    WanLog.i("请求-----userName : ${nameTextController.text}");
+    WanLog.i("请求-----password : ${passwordTextController.text}");
+    AppResponse<UserInfoEntity> res = await HttpGo.instance.post(Api.login,
+        data: {
+          "username": nameTextController.text,
+          "password": passwordTextController.text
+        });
+    WanLog.i("请求-----result : ${res.data?.nickname}");
+    showTextToast(res.data?.toString() ??"没结果");
   }
 
   @override
@@ -35,14 +51,15 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
               child: Container(
                 decoration: const BoxDecoration(color: Colors.lightGreen),
                 child: SizedBox.fromSize(
-                  size: Size(double.infinity, 60),
+                  size: const Size(double.infinity, 60),
                 ),
               ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: nameTextController,
+                decoration: const InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 4, horizontal: 2),
                     hintText: "用户名",
@@ -52,9 +69,10 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: const TextField(
+              child: TextField(
                 obscureText: true,
-                decoration: InputDecoration(
+                controller: passwordTextController,
+                decoration: const InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 4, horizontal: 2),
                     hintText: "密码",
