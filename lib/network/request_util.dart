@@ -7,6 +7,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import "package:path_provider/path_provider.dart";
 import 'package:wan_android_flutter/utils/log_util.dart';
 
+import '../constants/constants.dart';
 import 'bean/AppResponse.dart';
 
 // 是否用compute异步
@@ -68,15 +69,21 @@ class HttpGo {
       Options? options,
       ProgressCallback? progressCallback,
       ProgressCallback? receiveCallback}) async {
-    Response<String> response = await _dio.request(url,
-        data: data,
-        queryParameters: queryParams,
-        cancelToken: cancelToken,
-        options: (options ?? Options())..method = method,
-        onSendProgress: progressCallback,
-        onReceiveProgress: receiveCallback);
-    Map<String, dynamic> map = json.decode(response.data.toString());
-    AppResponse<T> result = AppResponse.fromJson(map);
+    AppResponse<T> result;
+    try {
+      Response<String> response = await _dio.request(url,
+          data: data,
+          queryParameters: queryParams,
+          cancelToken: cancelToken,
+          options: (options ?? Options())..method = method,
+          onSendProgress: progressCallback,
+          onReceiveProgress: receiveCallback);
+      Map<String, dynamic> map = json.decode(response.data.toString());
+      result = AppResponse.fromJson(map);
+    } on DioException catch (error) {
+      WanLog.e("request error-- $error");
+      result = AppResponse(Constant.otherError, error.message, null);
+    }
     return result;
   }
 
