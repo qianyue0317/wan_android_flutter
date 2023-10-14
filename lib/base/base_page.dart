@@ -5,6 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 mixin BasePage<T extends StatefulWidget> on State<T> {
   late FToast fToast;
 
+  /// 是否正在显示loading弹窗
+  bool showingLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +41,7 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
     );
   }
 
-  showTextToast(String content, {int seconds = 1}) {
+  showTextToast(String content, {int seconds = 2}) {
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
@@ -61,5 +64,36 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
       gravity: ToastGravity.BOTTOM,
       toastDuration: Duration(seconds: seconds),
     );
+  }
+
+  showLoadingDialog() async {
+    if (showingLoading) {
+      return;
+    }
+    showingLoading = true;
+    await showDialog<int>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return const AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                Padding(
+                  padding: EdgeInsets.only(top: 24),
+                  child: Text("请稍候..."),
+                )
+              ],
+            ),
+          );
+        });
+    showingLoading = false;
+  }
+
+  dismissLoading() {
+    if (showingLoading) {
+      Navigator.of(context).pop();
+    }
   }
 }

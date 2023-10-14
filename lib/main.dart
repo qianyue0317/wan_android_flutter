@@ -7,6 +7,7 @@ import 'package:wan_android_flutter/pages/tabpage/home_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/mine_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/plaza_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/project_page.dart';
+import 'package:wan_android_flutter/user.dart';
 import 'package:wan_android_flutter/utils/error_handle.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
@@ -17,6 +18,9 @@ Future<void> main() async {
     // 初始化mmkv
     final rootDir = await MMKV.initialize();
     WanLog.i("mmkv rootDir: ${rootDir}");
+
+    // 加载本地用户信息
+    User().loadFromLocal();
 
     // 初始化dio
     configDio(baseUrl: Constant.baseUrl);

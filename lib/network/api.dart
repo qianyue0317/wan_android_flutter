@@ -11,5 +11,8 @@ class Api {
 
   /// 登录
   static const String login = "user/login";
+
+  /// 注册
+  static const String register = "user/register";
 }
 

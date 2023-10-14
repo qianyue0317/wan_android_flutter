@@ -76,6 +76,7 @@ flutter:
   assets:
     - assets/images/icon_collect.png
     - assets/images/icon_uncollect.png
+    - assets/images/ic_default_avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
