@@ -1,12 +1,14 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
 import 'package:wan_android_flutter/network/bean/AppResponse.dart';
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/banner_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
+import 'package:wan_android_flutter/pages/detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,7 +59,9 @@ class _HomePageState extends State<HomePage>
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                 return GestureDetector(
-                    onTap: () {}, child: _generateItemView(context, index));
+                    onTap: () {
+                      Get.to(DetailPage(_articleList[index].link, _articleList[index].title));
+                    }, child: _generateItemView(context, index));
               }, childCount: _articleList.length))
             ],
           );

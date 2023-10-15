@@ -16,8 +16,9 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> with BasePage<SettingPage> {
   _showLogoutDialog() async {
-    if (User().isLoggedIn()) {
-        return;
+    if (!User().isLoggedIn()) {
+      showTextToast("当前未登录");
+      return;
     }
     bool result = await showDialog<bool>(
             context: context,
@@ -45,8 +46,8 @@ class _SettingPageState extends State<SettingPage> with BasePage<SettingPage> {
       AppResponse<dynamic> res = await HttpGo.instance.get(Api.logout);
       dismissLoading();
       if (res.isSuccessful) {
-          User().logout();
-          showTextToast("已退出登录！");
+        User().logout();
+        showTextToast("已退出登录！");
       } else {
         showTextToast("退出登录失败-${res.errorMsg}");
       }

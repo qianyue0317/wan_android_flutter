@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mmkv/mmkv.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'package:wan_android_flutter/constants/constants.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/tabpage/home_page.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
     // 初始化dio
     configDio(baseUrl: Constant.baseUrl);
 
+    setPathUrlStrategy();
     runApp(const MyApp());
   });
 }
