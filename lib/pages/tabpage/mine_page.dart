@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/pages/login_register_page.dart';
+import 'package:wan_android_flutter/pages/setting_page.dart';
 import 'package:wan_android_flutter/user.dart';
 
 class MinePage extends StatefulWidget {
@@ -35,8 +36,8 @@ class _MinePageState extends State<MinePage>
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          // color: Theme.of(context).primaryColor
-        ),
+            // color: Theme.of(context).primaryColor
+            ),
         child: Column(
           children: [
             Padding(
@@ -54,11 +55,9 @@ class _MinePageState extends State<MinePage>
                             Get.to(() => const LoginRegisterPage());
                           }
                         },
+                        behavior: HitTestBehavior.opaque,
                         child: Container(
                           alignment: Alignment.centerLeft,
-                          // 如果不设置decoration，container的大小貌似只有text大小。
-                          decoration:
-                              const BoxDecoration(color: Colors.transparent),
                           padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
                           child: Text(
                               User().isLoggedIn() ? User().userName : "登录/注册"),
@@ -75,7 +74,7 @@ class _MinePageState extends State<MinePage>
             Expanded(
                 child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.white.withOpacity(0.95),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
@@ -86,6 +85,36 @@ class _MinePageState extends State<MinePage>
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24)),
               ),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Get.to(() => const SettingPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "系统设置",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 15,
+                                        )))
+                              ],
+                            ),
+                          ))
+                    ],
+                  )),
             ))
           ],
         ),

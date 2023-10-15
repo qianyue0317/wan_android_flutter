@@ -39,7 +39,7 @@ class User {
     try {
       MMKV mmkv = MMKV.defaultMMKV();
       String? infoContent = mmkv.decodeString(_userInfoKey);
-      if (infoContent == null) {
+      if (infoContent == null || infoContent.isEmpty) {
         return;
       }
       _userInfoEntity = UserInfoEntity.fromJson(json.decoder.convert(infoContent));
@@ -63,6 +63,15 @@ class User {
   }
 
   logout() {
+    _userInfoEntity = null;
+
+    try {
+      MMKV mmkv = MMKV.defaultMMKV();
+      mmkv.encodeString(_userInfoKey, "");
+    } catch(e) {
+      WanLog.e("logout user info error- $e");
+    }
+
     for (var callback in _list) {
       callback();
     }

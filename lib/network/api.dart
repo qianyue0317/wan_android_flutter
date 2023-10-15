@@ -14,5 +14,8 @@ class Api {
 
   /// 注册
   static const String register = "user/register";
+
+  /// 退出登录
+  static const String logout = "user/logout/json";
 }
 
