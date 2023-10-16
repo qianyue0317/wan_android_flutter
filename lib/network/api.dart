@@ -23,5 +23,8 @@ class Api {
 
   /// 项目列表
   static const String projectList = "project/list/";
+
+  /// 搜索
+  static const String searchForKeyword = "article/query/";
 }
 

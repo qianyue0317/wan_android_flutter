@@ -4,6 +4,7 @@ import 'package:mmkv/mmkv.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:wan_android_flutter/constants/constants.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
+import 'package:wan_android_flutter/pages/search_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/home_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/mine_page.dart';
 import 'package:wan_android_flutter/pages/tabpage/plaza_page.dart';
@@ -91,7 +92,7 @@ class _MainPageState extends State<MainPage> {
             icon: const Icon(Icons.search, color: Colors.white),
             tooltip: '搜索',
             onPressed: () {
-              // todo 搜索页面实现
+              Get.to(const SearchPage());
             },
           ),
         ],
