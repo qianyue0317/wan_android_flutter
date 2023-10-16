@@ -161,7 +161,8 @@ class _ProjectListPageState extends State<ProjectListPage>
     return SizedBox(
         width: double.infinity,
         child: Card(
-            shadowColor: Colors.grey,
+            surfaceTintColor: Colors.white,
+            color: Colors.white,
             elevation: 4,
             clipBehavior: Clip.hardEdge,
             child: Padding(

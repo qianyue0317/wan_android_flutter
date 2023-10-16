@@ -85,7 +85,8 @@ class _HomePageState extends State<HomePage>
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(
-          shadowColor: Colors.grey,
+          surfaceTintColor: Colors.white,
+          color: Colors.white,
           elevation: 8,
           child: Padding(
             padding: const EdgeInsets.all(8),
