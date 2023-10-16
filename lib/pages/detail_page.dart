@@ -16,11 +16,17 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   _DetailPageState(this.url, this.title);
 
+  Key progressKey = GlobalKey();
+
+  Key contentKey = GlobalKey();
+
   String url;
 
   String title;
 
   final WebViewController _controller = WebViewController();
+
+  bool finish = false;
 
   @override
   void initState() {
@@ -28,7 +34,11 @@ class _DetailPageState extends State<DetailPage> {
     _controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
-          onPageStarted: (url) {}, onProgress: (progress) {}))
+          onPageStarted: (url) {},
+          onProgress: (progress) {},
+          onPageFinished: (content) {
+            setState(() {finish = true;});
+          }))
       ..loadRequest(Uri.parse(url));
   }
 
@@ -43,7 +53,14 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: WebViewWidget(controller: _controller),
+      body: !finish
+          ? Container(
+              key: progressKey,
+              width: double.infinity,
+              height: double.infinity,
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator())
+          : WebViewWidget(key: contentKey, controller: _controller),
     );
   }
 }
