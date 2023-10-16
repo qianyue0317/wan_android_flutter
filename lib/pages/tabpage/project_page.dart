@@ -146,8 +146,8 @@ class _ProjectListPageState extends State<ProjectListPage>
               physics: physics,
               itemCount: data.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
                 crossAxisCount: 2,
                 childAspectRatio: 0.5,
               ),
