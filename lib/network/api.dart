@@ -17,5 +17,11 @@ class Api {
 
   /// 退出登录
   static const String logout = "user/logout/json";
+
+  /// 项目分类
+  static const String projectCategory = "project/tree/json";
+
+  /// 项目列表
+  static const String projectList = "project/list/";
 }
 

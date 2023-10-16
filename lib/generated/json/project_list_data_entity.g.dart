@@ -1,41 +1,46 @@
 import 'package:wan_android_flutter/generated/json/base/json_convert_content.dart';
-import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
+import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 
-ArticleDataEntity $DataEntityFromJson(Map<String, dynamic> json) {
-  final ArticleDataEntity dataEntity = ArticleDataEntity();
+ProjectListDataEntity $ProjectListDataEntityFromJson(
+    Map<String, dynamic> json) {
+  final ProjectListDataEntity projectListDataEntity = ProjectListDataEntity();
   final int? curPage = jsonConvert.convert<int>(json['curPage']);
   if (curPage != null) {
-    dataEntity.curPage = curPage;
+    projectListDataEntity.curPage = curPage;
   }
-  final List<ArticleItemEntity>? datas = (json['datas'] as List<dynamic>?)?.map(
-          (e) => jsonConvert.convert<ArticleItemEntity>(e) as ArticleItemEntity).toList();
+  final List<ProjectListDataItemEntity>? datas = (json['datas'] as List<dynamic>?)
+      ?.map(
+          (e) =>
+      jsonConvert.convert<ProjectListDataItemEntity>(e) as ProjectListDataItemEntity)
+      .toList();
   if (datas != null) {
-    dataEntity.datas = datas;
+    projectListDataEntity.datas = datas;
   }
   final int? offset = jsonConvert.convert<int>(json['offset']);
   if (offset != null) {
-    dataEntity.offset = offset;
+    projectListDataEntity.offset = offset;
   }
   final bool? over = jsonConvert.convert<bool>(json['over']);
   if (over != null) {
-    dataEntity.over = over;
+    projectListDataEntity.over = over;
   }
   final int? pageCount = jsonConvert.convert<int>(json['pageCount']);
   if (pageCount != null) {
-    dataEntity.pageCount = pageCount;
+    projectListDataEntity.pageCount = pageCount;
   }
   final int? size = jsonConvert.convert<int>(json['size']);
   if (size != null) {
-    dataEntity.size = size;
+    projectListDataEntity.size = size;
   }
   final int? total = jsonConvert.convert<int>(json['total']);
   if (total != null) {
-    dataEntity.total = total;
+    projectListDataEntity.total = total;
   }
-  return dataEntity;
+  return projectListDataEntity;
 }
 
-Map<String, dynamic> $DataEntityToJson(ArticleDataEntity entity) {
+Map<String, dynamic> $ProjectListDataEntityToJson(
+    ProjectListDataEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['curPage'] = entity.curPage;
   data['datas'] = entity.datas.map((v) => v.toJson()).toList();
@@ -47,17 +52,17 @@ Map<String, dynamic> $DataEntityToJson(ArticleDataEntity entity) {
   return data;
 }
 
-extension DataEntityExtension on ArticleDataEntity {
-  ArticleDataEntity copyWith({
+extension ProjectListDataEntityExtension on ProjectListDataEntity {
+  ProjectListDataEntity copyWith({
     int? curPage,
-    List<ArticleItemEntity>? datas,
+    List<ProjectListDataItemEntity>? datas,
     int? offset,
     bool? over,
     int? pageCount,
     int? size,
     int? total,
   }) {
-    return ArticleDataEntity()
+    return ProjectListDataEntity()
       ..curPage = curPage ?? this.curPage
       ..datas = datas ?? this.datas
       ..offset = offset ?? this.offset
@@ -68,156 +73,160 @@ extension DataEntityExtension on ArticleDataEntity {
   }
 }
 
-ArticleItemEntity $ArticleItemEntityFromJson(Map<String, dynamic> json) {
-  final ArticleItemEntity articleItem = ArticleItemEntity();
+ProjectListDataItemEntity $ProjectListDataDatasFromJson(Map<String, dynamic> json) {
+  final ProjectListDataItemEntity projectListDataDatas = ProjectListDataItemEntity();
   final bool? adminAdd = jsonConvert.convert<bool>(json['adminAdd']);
   if (adminAdd != null) {
-    articleItem.adminAdd = adminAdd;
+    projectListDataDatas.adminAdd = adminAdd;
   }
   final String? apkLink = jsonConvert.convert<String>(json['apkLink']);
   if (apkLink != null) {
-    articleItem.apkLink = apkLink;
+    projectListDataDatas.apkLink = apkLink;
   }
   final int? audit = jsonConvert.convert<int>(json['audit']);
   if (audit != null) {
-    articleItem.audit = audit;
+    projectListDataDatas.audit = audit;
   }
   final String? author = jsonConvert.convert<String>(json['author']);
   if (author != null) {
-    articleItem.author = author;
+    projectListDataDatas.author = author;
   }
   final bool? canEdit = jsonConvert.convert<bool>(json['canEdit']);
   if (canEdit != null) {
-    articleItem.canEdit = canEdit;
+    projectListDataDatas.canEdit = canEdit;
   }
   final int? chapterId = jsonConvert.convert<int>(json['chapterId']);
   if (chapterId != null) {
-    articleItem.chapterId = chapterId;
+    projectListDataDatas.chapterId = chapterId;
   }
   final String? chapterName = jsonConvert.convert<String>(json['chapterName']);
   if (chapterName != null) {
-    articleItem.chapterName = chapterName;
+    projectListDataDatas.chapterName = chapterName;
   }
   final bool? collect = jsonConvert.convert<bool>(json['collect']);
   if (collect != null) {
-    articleItem.collect = collect;
+    projectListDataDatas.collect = collect;
   }
   final int? courseId = jsonConvert.convert<int>(json['courseId']);
   if (courseId != null) {
-    articleItem.courseId = courseId;
+    projectListDataDatas.courseId = courseId;
   }
   final String? desc = jsonConvert.convert<String>(json['desc']);
   if (desc != null) {
-    articleItem.desc = desc;
+    projectListDataDatas.desc = desc;
   }
   final String? descMd = jsonConvert.convert<String>(json['descMd']);
   if (descMd != null) {
-    articleItem.descMd = descMd;
+    projectListDataDatas.descMd = descMd;
   }
   final String? envelopePic = jsonConvert.convert<String>(json['envelopePic']);
   if (envelopePic != null) {
-    articleItem.envelopePic = envelopePic;
+    projectListDataDatas.envelopePic = envelopePic;
   }
   final bool? fresh = jsonConvert.convert<bool>(json['fresh']);
   if (fresh != null) {
-    articleItem.fresh = fresh;
+    projectListDataDatas.fresh = fresh;
   }
   final String? host = jsonConvert.convert<String>(json['host']);
   if (host != null) {
-    articleItem.host = host;
+    projectListDataDatas.host = host;
   }
   final int? id = jsonConvert.convert<int>(json['id']);
   if (id != null) {
-    articleItem.id = id;
+    projectListDataDatas.id = id;
   }
   final bool? isAdminAdd = jsonConvert.convert<bool>(json['isAdminAdd']);
   if (isAdminAdd != null) {
-    articleItem.isAdminAdd = isAdminAdd;
+    projectListDataDatas.isAdminAdd = isAdminAdd;
   }
   final String? link = jsonConvert.convert<String>(json['link']);
   if (link != null) {
-    articleItem.link = link;
+    projectListDataDatas.link = link;
   }
   final String? niceDate = jsonConvert.convert<String>(json['niceDate']);
   if (niceDate != null) {
-    articleItem.niceDate = niceDate;
+    projectListDataDatas.niceDate = niceDate;
   }
   final String? niceShareDate = jsonConvert.convert<String>(
       json['niceShareDate']);
   if (niceShareDate != null) {
-    articleItem.niceShareDate = niceShareDate;
+    projectListDataDatas.niceShareDate = niceShareDate;
   }
   final String? origin = jsonConvert.convert<String>(json['origin']);
   if (origin != null) {
-    articleItem.origin = origin;
+    projectListDataDatas.origin = origin;
   }
   final String? prefix = jsonConvert.convert<String>(json['prefix']);
   if (prefix != null) {
-    articleItem.prefix = prefix;
+    projectListDataDatas.prefix = prefix;
   }
   final String? projectLink = jsonConvert.convert<String>(json['projectLink']);
   if (projectLink != null) {
-    articleItem.projectLink = projectLink;
+    projectListDataDatas.projectLink = projectLink;
   }
   final int? publishTime = jsonConvert.convert<int>(json['publishTime']);
   if (publishTime != null) {
-    articleItem.publishTime = publishTime;
+    projectListDataDatas.publishTime = publishTime;
   }
   final int? realSuperChapterId = jsonConvert.convert<int>(
       json['realSuperChapterId']);
   if (realSuperChapterId != null) {
-    articleItem.realSuperChapterId = realSuperChapterId;
+    projectListDataDatas.realSuperChapterId = realSuperChapterId;
   }
   final int? selfVisible = jsonConvert.convert<int>(json['selfVisible']);
   if (selfVisible != null) {
-    articleItem.selfVisible = selfVisible;
+    projectListDataDatas.selfVisible = selfVisible;
   }
   final int? shareDate = jsonConvert.convert<int>(json['shareDate']);
   if (shareDate != null) {
-    articleItem.shareDate = shareDate;
+    projectListDataDatas.shareDate = shareDate;
   }
   final String? shareUser = jsonConvert.convert<String>(json['shareUser']);
   if (shareUser != null) {
-    articleItem.shareUser = shareUser;
+    projectListDataDatas.shareUser = shareUser;
   }
   final int? superChapterId = jsonConvert.convert<int>(json['superChapterId']);
   if (superChapterId != null) {
-    articleItem.superChapterId = superChapterId;
+    projectListDataDatas.superChapterId = superChapterId;
   }
   final String? superChapterName = jsonConvert.convert<String>(
       json['superChapterName']);
   if (superChapterName != null) {
-    articleItem.superChapterName = superChapterName;
+    projectListDataDatas.superChapterName = superChapterName;
   }
-  final List<dynamic>? tags = (json['tags'] as List<dynamic>?)?.map(
-          (e) => e).toList();
+  final List<ProjectListDataDatasTags>? tags = (json['tags'] as List<dynamic>?)
+      ?.map(
+          (e) =>
+      jsonConvert.convert<ProjectListDataDatasTags>(
+          e) as ProjectListDataDatasTags)
+      .toList();
   if (tags != null) {
-    articleItem.tags = tags;
+    projectListDataDatas.tags = tags;
   }
   final String? title = jsonConvert.convert<String>(json['title']);
   if (title != null) {
-    articleItem.title = title;
+    projectListDataDatas.title = title;
   }
   final int? type = jsonConvert.convert<int>(json['type']);
   if (type != null) {
-    articleItem.type = type;
+    projectListDataDatas.type = type;
   }
   final int? userId = jsonConvert.convert<int>(json['userId']);
   if (userId != null) {
-    articleItem.userId = userId;
+    projectListDataDatas.userId = userId;
   }
   final int? visible = jsonConvert.convert<int>(json['visible']);
   if (visible != null) {
-    articleItem.visible = visible;
+    projectListDataDatas.visible = visible;
   }
   final int? zan = jsonConvert.convert<int>(json['zan']);
   if (zan != null) {
-    articleItem.zan = zan;
+    projectListDataDatas.zan = zan;
   }
-  return articleItem;
+  return projectListDataDatas;
 }
 
-Map<String, dynamic> $ArticleItemEntityToJson(ArticleItemEntity entity) {
+Map<String, dynamic> $ProjectListDataDatasToJson(ProjectListDataItemEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['adminAdd'] = entity.adminAdd;
   data['apkLink'] = entity.apkLink;
@@ -248,7 +257,7 @@ Map<String, dynamic> $ArticleItemEntityToJson(ArticleItemEntity entity) {
   data['shareUser'] = entity.shareUser;
   data['superChapterId'] = entity.superChapterId;
   data['superChapterName'] = entity.superChapterName;
-  data['tags'] = entity.tags;
+  data['tags'] = entity.tags.map((v) => v.toJson()).toList();
   data['title'] = entity.title;
   data['type'] = entity.type;
   data['userId'] = entity.userId;
@@ -257,8 +266,8 @@ Map<String, dynamic> $ArticleItemEntityToJson(ArticleItemEntity entity) {
   return data;
 }
 
-extension ArticleItemEntityExtension on ArticleItemEntity {
-  ArticleItemEntity copyWith({
+extension ProjectListDataDatasExtension on ProjectListDataItemEntity {
+  ProjectListDataItemEntity copyWith({
     bool? adminAdd,
     String? apkLink,
     int? audit,
@@ -288,14 +297,14 @@ extension ArticleItemEntityExtension on ArticleItemEntity {
     String? shareUser,
     int? superChapterId,
     String? superChapterName,
-    List<dynamic>? tags,
+    List<ProjectListDataDatasTags>? tags,
     String? title,
     int? type,
     int? userId,
     int? visible,
     int? zan,
   }) {
-    return ArticleItemEntity()
+    return ProjectListDataItemEntity()
       ..adminAdd = adminAdd ?? this.adminAdd
       ..apkLink = apkLink ?? this.apkLink
       ..audit = audit ?? this.audit
@@ -331,5 +340,38 @@ extension ArticleItemEntityExtension on ArticleItemEntity {
       ..userId = userId ?? this.userId
       ..visible = visible ?? this.visible
       ..zan = zan ?? this.zan;
+  }
+}
+
+ProjectListDataDatasTags $ProjectListDataDatasTagsFromJson(
+    Map<String, dynamic> json) {
+  final ProjectListDataDatasTags projectListDataDatasTags = ProjectListDataDatasTags();
+  final String? name = jsonConvert.convert<String>(json['name']);
+  if (name != null) {
+    projectListDataDatasTags.name = name;
+  }
+  final String? url = jsonConvert.convert<String>(json['url']);
+  if (url != null) {
+    projectListDataDatasTags.url = url;
+  }
+  return projectListDataDatasTags;
+}
+
+Map<String, dynamic> $ProjectListDataDatasTagsToJson(
+    ProjectListDataDatasTags entity) {
+  final Map<String, dynamic> data = <String, dynamic>{};
+  data['name'] = entity.name;
+  data['url'] = entity.url;
+  return data;
+}
+
+extension ProjectListDataDatasTagsExtension on ProjectListDataDatasTags {
+  ProjectListDataDatasTags copyWith({
+    String? name,
+    String? url,
+  }) {
+    return ProjectListDataDatasTags()
+      ..name = name ?? this.name
+      ..url = url ?? this.url;
   }
 }

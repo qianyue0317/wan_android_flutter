@@ -1,8 +1,8 @@
+import 'package:wan_android_flutter/generated/json/article_data_entity.g.dart';
 import 'package:wan_android_flutter/generated/json/base/json_field.dart';
-import 'package:wan_android_flutter/generated/json/data_entity.g.dart';
 import 'dart:convert';
 
-export 'package:wan_android_flutter/generated/json/data_entity.g.dart';
+export 'package:wan_android_flutter/generated/json/article_data_entity.g.dart';
 
 @JsonSerializable()
 class ArticleDataEntity {
@@ -16,9 +16,9 @@ class ArticleDataEntity {
 
 	ArticleDataEntity();
 
-	factory ArticleDataEntity.fromJson(Map<String, dynamic> json) => $DataEntityFromJson(json);
+	factory ArticleDataEntity.fromJson(Map<String, dynamic> json) => $ArticleDataEntityFromJson(json);
 
-	Map<String, dynamic> toJson() => $DataEntityToJson(this);
+	Map<String, dynamic> toJson() => $ArticleDataEntityToJson(this);
 
 	@override
 	String toString() {
