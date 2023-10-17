@@ -26,5 +26,8 @@ class Api {
 
   /// 搜索
   static const String searchForKeyword = "article/query/";
+
+  /// 广场页列表
+  static const String plazaArticleList = "user_article/list/";
 }
 
