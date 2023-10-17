@@ -26,6 +26,8 @@ class _HomePageState extends State<HomePage>
 
   List<BannerEntity>? bannerData;
 
+  bool loadedData = false;
+
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
@@ -38,6 +40,13 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (!loadedData) {
+        return const Center(
+          widthFactor: 1,
+          heightFactor: 1,
+          child: CircularProgressIndicator(),
+        );
+    }
     return Scaffold(
       body: EasyRefresh.builder(
         controller: _refreshController,
@@ -96,6 +105,7 @@ class _HomePageState extends State<HomePage>
     }
 
     setState(() {
+      loadedData = true;
       _articleList = result;
     });
     _refreshController.finishRefresh();
