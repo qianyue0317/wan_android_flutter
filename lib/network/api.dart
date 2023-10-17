@@ -35,5 +35,8 @@ class Api {
 
   /// 取消收藏
   static const String uncollectArticel = "lg/uncollect_originId/";
+
+  /// 获取搜索热词
+  static const String hotKeywords = "hotkey/json";
 }
 

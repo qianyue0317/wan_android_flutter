@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/banner_entity.dart';
+import 'package:wan_android_flutter/network/bean/hot_keyword_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
@@ -24,9 +25,11 @@ class JsonConvert {
         (ArticleDataEntity).toString(): ArticleDataEntity.fromJson,
         (ArticleItemEntity).toString(): ArticleItemEntity.fromJson,
         (BannerEntity).toString(): BannerEntity.fromJson,
+        (HotKeywordEntity).toString(): HotKeywordEntity.fromJson,
         (ProjectCategoryEntity).toString(): ProjectCategoryEntity.fromJson,
         (ProjectListDataEntity).toString(): ProjectListDataEntity.fromJson,
-        (ProjectListDataItemEntity).toString(): ProjectListDataItemEntity.fromJson,
+        (ProjectListDataItemEntity).toString(): ProjectListDataItemEntity
+            .fromJson,
         (ProjectListDataDatasTags).toString(): ProjectListDataDatasTags
             .fromJson,
         (UserInfoEntity).toString(): UserInfoEntity.fromJson,
@@ -135,6 +138,10 @@ class JsonConvert {
     if (<BannerEntity>[] is M) {
       return data.map<BannerEntity>((Map<String, dynamic> e) =>
           BannerEntity.fromJson(e)).toList() as M;
+    }
+    if (<HotKeywordEntity>[] is M) {
+      return data.map<HotKeywordEntity>((Map<String, dynamic> e) =>
+          HotKeywordEntity.fromJson(e)).toList() as M;
     }
     if (<ProjectCategoryEntity>[] is M) {
       return data.map<ProjectCategoryEntity>((Map<String, dynamic> e) =>
