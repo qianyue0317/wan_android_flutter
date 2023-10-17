@@ -29,5 +29,11 @@ class Api {
 
   /// 广场页列表
   static const String plazaArticleList = "user_article/list/";
+
+  /// 点击收藏
+  static const String collectArticle = "lg/collect/";
+
+  /// 取消收藏
+  static const String uncollectArticel = "lg/uncollect_originId/";
 }
 

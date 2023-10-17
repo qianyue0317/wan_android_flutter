@@ -41,11 +41,11 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     if (!loadedData) {
-        return const Center(
-          widthFactor: 1,
-          heightFactor: 1,
-          child: CircularProgressIndicator(),
-        );
+      return const Center(
+        widthFactor: 1,
+        heightFactor: 1,
+        child: CircularProgressIndicator(),
+      );
     }
     return Scaffold(
       body: EasyRefresh.builder(
@@ -74,13 +74,31 @@ class _HomePageState extends State<HomePage>
                           _articleList[index].link, _articleList[index].title));
                     },
                     child: ArticleItemLayout(
-                        itemEntity: _articleList[index], onCollectTap: () {}));
+                        itemEntity: _articleList[index],
+                        onCollectTap: () {
+                          _onCollectClick(_articleList[index]);
+                        }));
               }, childCount: _articleList.length))
             ],
           );
         },
       ),
     );
+  }
+
+  _onCollectClick(ArticleItemEntity itemEntity) async {
+    bool collected = itemEntity.collect;
+    AppResponse<dynamic> res = await (collected
+        ? HttpGo.instance.post("${Api.uncollectArticel}${itemEntity.id}/json")
+        : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
+
+    if (res.isSuccessful) {
+      showTextToast(collected ? "取消收藏成功！" : "收藏成功！");
+      itemEntity.collect = !itemEntity.collect;
+    } else {
+      showTextToast((collected ? "取消收藏失败 -- " : "收藏失败 -- ") +
+          (res.errorMsg ?? res.errorCode.toString()));
+    }
   }
 
   void _refreshRequest() async {

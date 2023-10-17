@@ -85,12 +85,30 @@ class _PlazaState extends State<PlazaPage>
                   Get.to(DetailPage(itemEntity.link, itemEntity.title));
                 },
                 child: ArticleItemLayout(
-                    itemEntity: itemEntity, onCollectTap: () {}),
+                    itemEntity: itemEntity,
+                    onCollectTap: () {
+                      _onCollectClick(itemEntity);
+                    }),
               );
             },
             itemCount: data.length);
       },
     );
+  }
+
+  _onCollectClick(ArticleItemEntity itemEntity) async {
+    bool collected = itemEntity.collect;
+    AppResponse<dynamic> res = await (collected
+        ? HttpGo.instance.post("${Api.uncollectArticel}${itemEntity.id}/json")
+        : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
+
+    if (res.isSuccessful) {
+      showTextToast(collected ? "取消收藏成功！" : "收藏成功！");
+      itemEntity.collect = !itemEntity.collect;
+    } else {
+      showTextToast((collected ? "取消收藏失败 -- " : "收藏失败 -- ") +
+          (res.errorMsg ?? res.errorCode.toString()));
+    }
   }
 
   @override

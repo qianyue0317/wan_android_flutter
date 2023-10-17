@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:wan_android_flutter/generated/json/article_data_entity.g.dart';
 import 'package:wan_android_flutter/generated/json/base/json_field.dart';
 import 'dart:convert';
@@ -27,7 +28,7 @@ class ArticleDataEntity {
 }
 
 @JsonSerializable()
-class ArticleItemEntity {
+class ArticleItemEntity with ChangeNotifier {
 	late bool adminAdd;
 	late String apkLink;
 	late int audit;
@@ -35,7 +36,12 @@ class ArticleItemEntity {
 	late bool canEdit;
 	late int chapterId;
 	late String? chapterName;
-	late bool collect;
+	late bool _collect;
+	set collect(bool value) {
+		_collect = value;
+		notifyListeners();
+	}
+	bool get collect => _collect;
 	late int courseId;
 	late String desc;
 	late String descMd;
