@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mmkv/mmkv.dart';
+import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:wan_android_flutter/constants/constants.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
@@ -28,7 +29,8 @@ Future<void> main() async {
     configDio(baseUrl: Constant.baseUrl);
 
     setPathUrlStrategy();
-    runApp(const MyApp());
+    runApp(ChangeNotifierProvider(
+        create: (context) => User(), child: const MyApp()));
   });
 }
 
@@ -92,7 +94,7 @@ class _MainPageState extends State<MainPage> {
             icon: const Icon(Icons.search, color: Colors.white),
             tooltip: '搜索',
             onPressed: () {
-              Get.to(const SearchPage());
+              Get.to(() => const SearchPage());
             },
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:banner_carousel/banner_carousel.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
 import 'package:wan_android_flutter/network/bean/AppResponse.dart';
@@ -10,6 +11,7 @@ import 'package:wan_android_flutter/network/bean/banner_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/article_item_layout.dart';
 import 'package:wan_android_flutter/pages/detail_page.dart';
+import 'package:wan_android_flutter/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,18 +30,31 @@ class _HomePageState extends State<HomePage>
 
   bool loadedData = false;
 
+  bool login = false;
+
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
   @override
   void initState() {
     super.initState();
+    login = User().isLoggedIn();
     _refreshRequest();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    return Consumer<User>(builder: (context, user, child) {
+      if (login != User().isLoggedIn()) {
+        login = User().isLoggedIn();
+        _refreshRequest();
+      }
+      return _build(context);
+    });
+  }
+
+  Widget _build(BuildContext context) {
     if (!loadedData) {
       return const Center(
         widthFactor: 1,
@@ -70,7 +85,7 @@ class _HomePageState extends State<HomePage>
                   delegate: SliverChildBuilderDelegate((context, index) {
                 return GestureDetector(
                     onTap: () {
-                      Get.to(DetailPage(
+                      Get.to(() => DetailPage(
                           _articleList[index].link, _articleList[index].title));
                     },
                     child: ArticleItemLayout(
@@ -93,10 +108,10 @@ class _HomePageState extends State<HomePage>
         : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
 
     if (res.isSuccessful) {
-      showTextToast(collected ? "取消收藏成功！" : "收藏成功！");
+      showTextToast(collected ? "取消收藏！" : "收藏成功！");
       itemEntity.collect = !itemEntity.collect;
     } else {
-      showTextToast((collected ? "取消收藏失败 -- " : "收藏失败 -- ") +
+      showTextToast((collected ? "取消失败 -- " : "收藏失败 -- ") +
           (res.errorMsg ?? res.errorCode.toString()));
     }
   }

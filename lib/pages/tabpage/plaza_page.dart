@@ -2,6 +2,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
 import 'package:wan_android_flutter/network/bean/AppResponse.dart';
@@ -9,6 +10,7 @@ import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/article_item_layout.dart';
 import 'package:wan_android_flutter/pages/detail_page.dart';
+import 'package:wan_android_flutter/user.dart';
 
 class PlazaPage extends StatefulWidget {
   const PlazaPage({super.key});
@@ -25,12 +27,15 @@ class _PlazaState extends State<PlazaPage>
 
   bool loadedData = false;
 
+  bool login = false;
+
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
   @override
   void initState() {
     super.initState();
+    login = User().isLoggedIn();
     _requestData();
   }
 
@@ -58,6 +63,16 @@ class _PlazaState extends State<PlazaPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    // 监听user的状态，当登录状态改变时，重新build
+    Provider.of<User>(context);
+
+    if (login != User().isLoggedIn()) {
+      login = User().isLoggedIn();
+      _currentPageIndex = 0;
+      _requestData();
+    }
+
     if (!loadedData) {
       return const Center(
         widthFactor: 1,
@@ -82,7 +97,7 @@ class _PlazaState extends State<PlazaPage>
               ArticleItemEntity itemEntity = data[index];
               return GestureDetector(
                 onTap: () {
-                  Get.to(DetailPage(itemEntity.link, itemEntity.title));
+                  Get.to(() => DetailPage(itemEntity.link, itemEntity.title));
                 },
                 child: ArticleItemLayout(
                     itemEntity: itemEntity,
@@ -103,10 +118,10 @@ class _PlazaState extends State<PlazaPage>
         : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
 
     if (res.isSuccessful) {
-      showTextToast(collected ? "取消收藏成功！" : "收藏成功！");
+      showTextToast(collected ? "取消收藏！" : "收藏成功！");
       itemEntity.collect = !itemEntity.collect;
     } else {
-      showTextToast((collected ? "取消收藏失败 -- " : "收藏失败 -- ") +
+      showTextToast((collected ? "取消失败 -- " : "收藏失败 -- ") +
           (res.errorMsg ?? res.errorCode.toString()));
     }
   }

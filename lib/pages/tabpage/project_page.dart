@@ -139,7 +139,8 @@ class _ProjectListPageState extends State<ProjectListPage>
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
-                      Get.to(DetailPage(data[index].link, data[index].title));
+                      Get.to(() =>
+                          DetailPage(data[index].link, data[index].title));
                     },
                     child: _generateItem(context, index));
               },

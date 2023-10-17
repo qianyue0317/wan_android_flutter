@@ -64,9 +64,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
           return ListView.builder(
               itemBuilder: (context, index) {
                 return GestureDetector(
-                    onTap: () =>
-                        Get.to(DetailPage(data[index].link, data[index].title)),
-                    child: ArticleItemLayout(
+                    onTap: () => Get.to(
+                      () => DetailPage(data[index].link, data[index].title)),
+                  child: ArticleItemLayout(
                         itemEntity: data[index], onCollectTap: () {}));
               },
               physics: physics, itemCount: data.length,);

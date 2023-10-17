@@ -42,6 +42,8 @@ class HttpGo {
 
   static HttpGo get instance => _singleton;
 
+  CookieJar? cookieJar;
+
   HttpGo._internal() {
     if (!configured) {
       WanLog.w("you have not config the dio!");
@@ -56,8 +58,10 @@ class HttpGo {
         sendTimeout: _sendTimeout));
     Future<Directory> dirResult = getApplicationDocumentsDirectory();
     dirResult.then((value) {
-      _dio.interceptors.add(CookieManager(
-          PersistCookieJar(storage: FileStorage("${value.path}/.cookies/"))));
+      CookieManager cookieManager = CookieManager(
+          PersistCookieJar(storage: FileStorage("${value.path}/.cookies/")));
+      cookieJar = cookieManager.cookieJar;
+      _dio.interceptors.add(cookieManager);
     });
     _dio.interceptors.addAll(_interceptors);
   }

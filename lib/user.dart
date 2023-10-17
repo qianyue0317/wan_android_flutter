@@ -2,13 +2,15 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:mmkv/mmkv.dart';
 import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
+import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
 typedef LoginStatusChangeCallback = void Function();
 
-class User {
+class User extends ChangeNotifier {
   static const String _userInfoKey = "userInfo";
 
   User._internal();
@@ -57,6 +59,7 @@ class User {
     } catch(e) {
       WanLog.e("save user info to local error- $e");
     }
+    notifyListeners();
     for (var callback in _list) {
       callback();
     }
@@ -64,7 +67,7 @@ class User {
 
   logout() {
     _userInfoEntity = null;
-
+    HttpGo.instance.cookieJar?.deleteAll();
     try {
       MMKV mmkv = MMKV.defaultMMKV();
       mmkv.encodeString(_userInfoKey, "");
@@ -72,6 +75,7 @@ class User {
       WanLog.e("logout user info error- $e");
     }
 
+    notifyListeners();
     for (var callback in _list) {
       callback();
     }

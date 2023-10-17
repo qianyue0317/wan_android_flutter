@@ -220,7 +220,7 @@ class _SearchPageState extends State<SearchPage> with BasePage<SearchPage> {
       }
       histories.insert(0, content);
     });
-    Get.to(SearchResultPage(keyword: content));
+    Get.to(() => SearchResultPage(keyword: content));
   }
 }
 

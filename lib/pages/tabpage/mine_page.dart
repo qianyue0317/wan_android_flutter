@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/pages/login_register_page.dart';
 import 'package:wan_android_flutter/pages/setting_page.dart';
 import 'package:wan_android_flutter/user.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -15,27 +17,12 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage>
     with BasePage<MinePage>, AutomaticKeepAliveClientMixin {
   @override
-  void initState() {
-    super.initState();
-    User().on(_onLoginChange);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    User().off(_onLoginChange);
-  }
-
-  void _onLoginChange() {
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
+    WanLog.i("change mine");
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             // color: Theme.of(context).primaryColor
             ),
         child: Column(
@@ -59,14 +46,18 @@ class _MinePageState extends State<MinePage>
                         child: Container(
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                          child: Text(
-                              User().isLoggedIn() ? User().userName : "登录/注册"),
+                          child: Text(context.select<User, bool>(
+                                  (user) => user.isLoggedIn())
+                              ? context
+                                  .select<User, String>((user) => user.userName)
+                              : "登录/注册"),
                         )),
                     Expanded(
                       child: Align(
                           alignment: Alignment.centerRight,
-                          child: Text(User().isLoggedIn()
-                              ? "积分：${User().userCoinCount.toString()}"
+                          child: Text(context.select<User, bool>(
+                                  (user) => user.isLoggedIn())
+                              ? "积分：${context.select<User, String>((user) => user.userCoinCount.toString())}"
                               : "积分：--")),
                     )
                   ],
