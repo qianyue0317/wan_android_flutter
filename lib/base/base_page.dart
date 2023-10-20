@@ -97,3 +97,51 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
     }
   }
 }
+
+class RetryWidget extends StatelessWidget {
+  const RetryWidget({super.key, required this.onTapRetry});
+
+  final void Function() onTapRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTapRetry,
+        child: const SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: Icon(Icons.refresh)),
+              Text("加载失败，点击重试")
+            ],
+          ),
+        ));
+  }
+}
+
+class EmptyWidget extends StatelessWidget {
+  const EmptyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+              padding: EdgeInsets.only(bottom: 16), child: Icon(Icons.book)),
+          Text("无数据")
+        ],
+      ),
+    );
+  }
+}
