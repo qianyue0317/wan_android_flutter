@@ -62,14 +62,17 @@ class _SearchResultPageState extends State<SearchResultPage> {
         controller: _refreshController,
         childBuilder: (context, physics) {
           return ListView.builder(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () => Get.to(
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => Get.to(
                       () => DetailPage(data[index].link, data[index].title)),
                   child: ArticleItemLayout(
-                        itemEntity: data[index], onCollectTap: () {}));
-              },
-              physics: physics, itemCount: data.length,);
+                      itemEntity: data[index], onCollectTap: () {}));
+            },
+            physics: physics,
+            itemCount: data.length,
+          );
         },
         onRefresh: () {
           _currentIndex = 0;
