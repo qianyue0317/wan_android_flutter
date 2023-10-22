@@ -10,7 +10,7 @@ class DetailPage extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State createState() => _DetailPageState(this.url, this.title);
+  State createState() => _DetailPageState(url, title);
 }
 
 class _DetailPageState extends State<DetailPage> {
