@@ -29,8 +29,6 @@ class _HomePageState extends State<HomePage>
 
   List<BannerEntity>? bannerData;
 
-  bool login = false;
-
   var retryCount = 0.obs;
 
   var dataUpdate = 0.obs;
@@ -39,19 +37,10 @@ class _HomePageState extends State<HomePage>
       controlFinishRefresh: true, controlFinishLoad: true);
 
   @override
-  void initState() {
-    super.initState();
-    login = User().isLoggedIn();
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
 
     return Consumer<User>(builder: (context, user, child) {
-      if (login != User().isLoggedIn()) {
-        login = User().isLoggedIn();
-      }
       return Obx(() {
         WanLog.i("retry count: ${retryCount.value}");
         return _build(context);

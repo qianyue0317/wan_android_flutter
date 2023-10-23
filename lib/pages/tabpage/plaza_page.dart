@@ -1,5 +1,4 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -25,21 +24,12 @@ class _PlazaState extends State<PlazaPage>
 
   List<ArticleItemEntity> data = [];
 
-  bool loadedData = false;
-
-  bool login = false;
+  late RxList<ArticleItemEntity> dataObs = data.obs;
 
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
-  @override
-  void initState() {
-    super.initState();
-    login = User().isLoggedIn();
-    _requestData();
-  }
-
-  _requestData() async {
+  Future<bool> _requestData() async {
     AppResponse<ArticleDataEntity> res = await HttpGo.instance
         .get("${Api.plazaArticleList}$_currentPageIndex/json");
 
@@ -54,10 +44,11 @@ class _PlazaState extends State<PlazaPage>
         } else {
           _refreshController.finishLoad();
         }
-        loadedData = true;
         data.addAll(res.data!.datas);
       });
+      return true;
     }
+    return false;
   }
 
   @override
@@ -65,35 +56,43 @@ class _PlazaState extends State<PlazaPage>
     super.build(context);
 
     // 监听user的状态，当登录状态改变时，重新build
-    Provider.of<User>(context);
+    return Consumer<User>(builder: (context, user, child) {
+      return FutureBuilder(future: (() {
+        _currentPageIndex = 0;
+        return _requestData();
+      })(), builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == false) {
+            return RetryWidget(onTapRetry: () {
+              setState(() {});
+            });
+          }
+          return Obx(() =>_buildContent());
+        } else {
+          return const Center(
+            widthFactor: 1,
+            heightFactor: 1,
+            child: CircularProgressIndicator(),
+          );
+        }
+      });
+    });
+  }
 
-    if (login != User().isLoggedIn()) {
-      login = User().isLoggedIn();
-      _currentPageIndex = 0;
-      _requestData();
-    }
-
-    if (!loadedData) {
-      return const Center(
-        widthFactor: 1,
-        heightFactor: 1,
-        child: CircularProgressIndicator(),
-      );
+  Widget _buildContent() {
+    if (data.isEmpty) {
+      return const EmptyWidget();
     }
     return EasyRefresh.builder(
       controller: _refreshController,
-      onRefresh: () {
-        _currentPageIndex = 0;
-        _requestData();
-      },
-      onLoad: () {
-        _currentPageIndex++;
-        _requestData();
-      },
+      onRefresh: _onRefresh,
+      onLoad: _onLoad,
       childBuilder: (context, physics) {
         return ListView.builder(
             physics: physics,
             itemBuilder: (context, index) {
+              // ignore: invalid_use_of_protected_member
+              dataObs.value;
               ArticleItemEntity itemEntity = data[index];
               return GestureDetector(
                 onTap: () {
@@ -109,6 +108,20 @@ class _PlazaState extends State<PlazaPage>
             itemCount: data.length);
       },
     );
+  }
+
+  _onRefresh() async {
+    _currentPageIndex = 0;
+    await _requestData();
+    _refreshController.finishRefresh();
+    dataObs.refresh();
+  }
+
+  _onLoad() async {
+    _currentPageIndex++;
+    await _requestData();
+    _refreshController.finishLoad();
+    dataObs.refresh();
   }
 
   _onCollectClick(ArticleItemEntity itemEntity) async {
