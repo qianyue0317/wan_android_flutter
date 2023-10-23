@@ -21,6 +21,15 @@ class _ArticleItemState extends State<ArticleItemLayout> {
   }
 
   @override
+  void didUpdateWidget(ArticleItemLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.itemEntity != widget.itemEntity) {
+      oldWidget.itemEntity.removeListener(_onCollectChange);
+      widget.itemEntity.addListener(_onCollectChange);
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     widget.itemEntity.removeListener(_onCollectChange);

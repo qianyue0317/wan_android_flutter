@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/article_item_layout.dart';
 import 'package:wan_android_flutter/pages/detail_page.dart';
 import 'package:wan_android_flutter/user.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 
 class PlazaPage extends StatefulWidget {
   const PlazaPage({super.key});
@@ -38,14 +39,7 @@ class _PlazaState extends State<PlazaPage>
       data.clear();
     }
     if (res.isSuccessful) {
-      setState(() {
-        if (isRefresh) {
-          _refreshController.finishRefresh();
-        } else {
-          _refreshController.finishLoad();
-        }
-        data.addAll(res.data!.datas);
-      });
+      data.addAll(res.data!.datas);
       return true;
     }
     return false;
@@ -57,25 +51,25 @@ class _PlazaState extends State<PlazaPage>
 
     // 监听user的状态，当登录状态改变时，重新build
     return Consumer<User>(builder: (context, user, child) {
-      return FutureBuilder(future: (() {
-        _currentPageIndex = 0;
-        return _requestData();
-      })(), builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data == false) {
-            return RetryWidget(onTapRetry: () {
-              setState(() {});
-            });
-          }
-          return Obx(() =>_buildContent());
-        } else {
-          return const Center(
-            widthFactor: 1,
-            heightFactor: 1,
-            child: CircularProgressIndicator(),
-          );
-        }
-      });
+      return FutureBuilder(
+          future: _requestData(),
+          builder: (context, snapshot) {
+            WanLog.d("plaza connect state: ${snapshot.connectionState}");
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data == false) {
+                return RetryWidget(onTapRetry: () {
+                  setState(() {});
+                });
+              }
+              return _buildContent();
+            } else {
+              return const Center(
+                widthFactor: 1,
+                heightFactor: 1,
+                child: CircularProgressIndicator(),
+              );
+            }
+          });
     });
   }
 
@@ -88,24 +82,27 @@ class _PlazaState extends State<PlazaPage>
       onRefresh: _onRefresh,
       onLoad: _onLoad,
       childBuilder: (context, physics) {
-        return ListView.builder(
-            physics: physics,
-            itemBuilder: (context, index) {
-              // ignore: invalid_use_of_protected_member
-              dataObs.value;
-              ArticleItemEntity itemEntity = data[index];
-              return GestureDetector(
-                onTap: () {
-                  Get.to(() => DetailPage(itemEntity.link, itemEntity.title));
-                },
-                child: ArticleItemLayout(
-                    itemEntity: itemEntity,
-                    onCollectTap: () {
-                      _onCollectClick(itemEntity);
-                    }),
-              );
-            },
-            itemCount: data.length);
+        return Obx(() {
+          // ignore: invalid_use_of_protected_member
+          dataObs.value;
+          return ListView.builder(
+              physics: physics,
+              itemBuilder: (context, index) {
+                ArticleItemEntity itemEntity = data[index];
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(() =>
+                        DetailPage(itemEntity.link, itemEntity.title));
+                  },
+                  child: ArticleItemLayout(
+                      itemEntity: itemEntity,
+                      onCollectTap: () {
+                        _onCollectClick(itemEntity);
+                      }),
+                );
+              },
+              itemCount: data.length);
+        });
       },
     );
   }
