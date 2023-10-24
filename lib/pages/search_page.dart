@@ -150,6 +150,7 @@ class _SearchPageState extends State<SearchPage> with BasePage<SearchPage> {
                 itemCount: histories.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         _onSearch(histories[index]);
                       },
