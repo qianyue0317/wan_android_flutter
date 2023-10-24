@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 
 class ArticleItemLayout extends StatefulWidget {
-  const ArticleItemLayout({Key? key, required this.itemEntity, required this.onCollectTap}) : super(key: key);
+  const ArticleItemLayout(
+      {Key? key,
+      required this.itemEntity,
+      required this.onCollectTap,
+      this.showCollectBtn})
+      : super(key: key);
 
   final ArticleItemEntity itemEntity;
 
   final void Function() onCollectTap;
+
+  final bool? showCollectBtn;
 
   @override
   State<StatefulWidget> createState() => _ArticleItemState();
 }
 
 class _ArticleItemState extends State<ArticleItemLayout> {
-
   @override
   void initState() {
     super.initState();
@@ -42,7 +48,8 @@ class _ArticleItemState extends State<ArticleItemLayout> {
   @override
   Widget build(BuildContext context) {
     String publishTime =
-    DateTime.fromMillisecondsSinceEpoch(widget.itemEntity.publishTime).toString();
+        DateTime.fromMillisecondsSinceEpoch(widget.itemEntity.publishTime)
+            .toString();
     publishTime = publishTime.substring(0, publishTime.length - 4);
     StringBuffer sb = StringBuffer(widget.itemEntity.superChapterName ?? "");
     if (sb.isNotEmpty &&
@@ -74,7 +81,7 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                           : const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Text(widget.itemEntity.author?.isNotEmpty == true
                           ? widget.itemEntity.author!
-                          : widget.itemEntity.shareUser??""),
+                          : widget.itemEntity.shareUser ?? ""),
                     ),
                     Expanded(
                       child: Align(
@@ -90,10 +97,10 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                     children: [
                       Expanded(
                           child: Text(
-                            widget.itemEntity.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ))
+                        widget.itemEntity.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ))
                     ],
                   ),
                 ),
@@ -105,12 +112,17 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                             width: 24,
                             height: 24,
                             alignment: Alignment.topRight,
-                            child: GestureDetector(
-                              onTap: widget.onCollectTap,
-                              child: Image.asset(widget.itemEntity.collect
-                                  ? "assets/images/icon_collect.png"
-                                  : "assets/images/icon_uncollect.png"),
-                            )))
+                            child: Builder(builder: (context) {
+                              if (widget.showCollectBtn == false) {
+                                return Container();
+                              }
+                              return GestureDetector(
+                                onTap: widget.onCollectTap,
+                                child: Image.asset(widget.itemEntity.collect
+                                    ? "assets/images/icon_collect.png"
+                                    : "assets/images/icon_uncollect.png"),
+                              );
+                            })))
                   ],
                 )
               ],
@@ -118,5 +130,4 @@ class _ArticleItemState extends State<ArticleItemLayout> {
           ),
         ));
   }
-
 }

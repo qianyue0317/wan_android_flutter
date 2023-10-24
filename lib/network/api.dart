@@ -41,5 +41,8 @@ class Api {
 
   /// 获取收藏文章列表
   static const String collectList = "lg/collect/list/";
+
+  /// 收藏网站列表
+  static const String collectWebaddressList = "lg/collect/usertools/json";
 }
 

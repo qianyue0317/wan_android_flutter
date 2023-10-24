@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/network/bean/hot_keyword_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
+import 'package:wan_android_flutter/network/bean/user_tool_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 
@@ -33,6 +34,7 @@ class JsonConvert {
         (ProjectListDataDatasTags).toString(): ProjectListDataDatasTags
             .fromJson,
         (UserInfoEntity).toString(): UserInfoEntity.fromJson,
+        (UserToolEntity).toString(): UserToolEntity.fromJson,
       };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -162,6 +164,10 @@ class JsonConvert {
     if (<UserInfoEntity>[] is M) {
       return data.map<UserInfoEntity>((Map<String, dynamic> e) =>
           UserInfoEntity.fromJson(e)).toList() as M;
+    }
+    if (<UserToolEntity>[] is M) {
+      return data.map<UserToolEntity>((Map<String, dynamic> e) =>
+          UserToolEntity.fromJson(e)).toList() as M;
     }
 
     debugPrint("${M.toString()} not found");
