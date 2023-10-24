@@ -1,6 +1,8 @@
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
@@ -72,12 +74,15 @@ class _HomePageState extends State<HomePage>
                               child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                                  child: BannerCarousel(
-                                    banners: bannerData!
-                                        .map((e) => BannerModel(
-                                            imagePath: e.imagePath,
-                                            id: e.id.toString()))
-                                        .toList(),
+                                  child: CarouselSlider(
+                                    options: CarouselOptions(
+                                        enableInfiniteScroll: true,
+                                        autoPlay: true,
+                                        aspectRatio: 2.0,
+                                        enlargeCenterPage: true,
+                                        enlargeStrategy:
+                                            CenterPageEnlargeStrategy.height),
+                                    items: _bannerList(),
                                   ))),
                         SliverList(
                             delegate:
@@ -110,6 +115,22 @@ class _HomePageState extends State<HomePage>
         });
   }
 
+  List<Widget> _bannerList() => bannerData!
+      .map((e) => Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(6))
+          ),
+          child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+              child: Image.network(
+                e.imagePath,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ))))
+      .toList();
+
   _onCollectClick(ArticleItemEntity itemEntity) async {
     bool collected = itemEntity.collect;
     AppResponse<dynamic> res = await (collected
@@ -117,11 +138,12 @@ class _HomePageState extends State<HomePage>
         : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
 
     if (res.isSuccessful) {
-      showTextToast(collected ? "取消收藏！" : "收藏成功！");
+      Fluttertoast.showToast(msg: collected ? "取消收藏！" : "收藏成功！");
       itemEntity.collect = !itemEntity.collect;
     } else {
-      showTextToast((collected ? "取消失败 -- " : "收藏失败 -- ") +
-          (res.errorMsg ?? res.errorCode.toString()));
+      Fluttertoast.showToast(
+          msg: (collected ? "取消失败 -- " : "收藏失败 -- ") +
+              (res.errorMsg ?? res.errorCode.toString()));
     }
   }
 

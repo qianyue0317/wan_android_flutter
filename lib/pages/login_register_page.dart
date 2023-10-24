@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
 import 'package:wan_android_flutter/network/bean/AppResponse.dart';
@@ -6,7 +7,6 @@ import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/user.dart';
 import 'package:get/get.dart';
-
 
 class LoginRegisterPage extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -129,13 +129,13 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
         .post(isLogin ? Api.login : Api.register, data: data);
     dismissLoading();
 
-
     if (res.isSuccessful) {
       User().loginSuccess(res.data!);
-      showTextToast(isLogin ? "登录成功" : "注册成功");
+      Fluttertoast.showToast(msg: isLogin ? "登录成功" : "注册成功");
       Get.back();
     } else {
-      showTextToast(isLogin ? "登录失败：${res.errorMsg}" : "注册失败：${res.errorMsg}");
+      Fluttertoast.showToast(
+          msg: isLogin ? "登录失败：${res.errorMsg}" : "注册失败：${res.errorMsg}");
     }
   }
 }

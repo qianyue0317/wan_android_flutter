@@ -39,6 +39,7 @@ dependencies:
   easy_refresh: ^3.3.2+1
   # banner
   banner_carousel: ^1.2.1
+  carousel_slider: ^4.2.1
   #  cookie
   dio_cookie_manager: ^3.1.1
   #  toast

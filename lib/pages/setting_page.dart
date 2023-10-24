@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
@@ -17,7 +18,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> with BasePage<SettingPage> {
   _showLogoutDialog() async {
     if (!User().isLoggedIn()) {
-      showTextToast("当前未登录");
+      Fluttertoast.showToast(msg: "当前未登录");
       return;
     }
     bool result = await showDialog<bool>(
@@ -47,9 +48,9 @@ class _SettingPageState extends State<SettingPage> with BasePage<SettingPage> {
       dismissLoading();
       if (res.isSuccessful) {
         User().logout();
-        showTextToast("已退出登录！");
+        Fluttertoast.showToast(msg: "已退出登录！");
       } else {
-        showTextToast("退出登录失败-${res.errorMsg}");
+        Fluttertoast.showToast(msg:"退出登录失败-${res.errorMsg}");
       }
     }
   }

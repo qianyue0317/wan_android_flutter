@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
@@ -91,8 +92,7 @@ class _PlazaState extends State<PlazaPage>
                 ArticleItemEntity itemEntity = data[index];
                 return GestureDetector(
                   onTap: () {
-                    Get.to(() =>
-                        DetailPage(itemEntity.link, itemEntity.title));
+                    Get.to(() => DetailPage(itemEntity.link, itemEntity.title));
                   },
                   child: ArticleItemLayout(
                       itemEntity: itemEntity,
@@ -128,11 +128,12 @@ class _PlazaState extends State<PlazaPage>
         : HttpGo.instance.post("${Api.collectArticle}${itemEntity.id}/json"));
 
     if (res.isSuccessful) {
-      showTextToast(collected ? "取消收藏！" : "收藏成功！");
+      Fluttertoast.showToast(msg: collected ? "取消收藏！" : "收藏成功！");
       itemEntity.collect = !itemEntity.collect;
     } else {
-      showTextToast((collected ? "取消失败 -- " : "收藏失败 -- ") +
-          (res.errorMsg ?? res.errorCode.toString()));
+      Fluttertoast.showToast(
+          msg: (collected ? "取消失败 -- " : "收藏失败 -- ") +
+              (res.errorMsg ?? res.errorCode.toString()));
     }
   }
 
