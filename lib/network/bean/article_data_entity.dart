@@ -36,13 +36,13 @@ class ArticleItemEntity with ChangeNotifier {
 	late bool canEdit;
 	late int chapterId;
 	late String? chapterName;
-	late bool _collect;
+	bool? _collect;
 	set collect(bool value) {
 		_collect = value;
 		notifyListeners();
 	}
-	bool get collect => _collect;
-	late int courseId;
+  bool get collect => _collect ?? false;
+  late int courseId;
 	late String desc;
 	late String descMd;
 	late String envelopePic;
@@ -60,12 +60,12 @@ class ArticleItemEntity with ChangeNotifier {
 	late int realSuperChapterId;
 	late int selfVisible;
 	late int shareDate;
-	late String shareUser;
+	String? shareUser;
 	late int superChapterId;
-	late String superChapterName;
+	String? superChapterName;
 	late List<dynamic> tags;
 	late String title;
-	late int type;
+	int? type;
 	late int userId;
 	late int visible;
 	late int zan;

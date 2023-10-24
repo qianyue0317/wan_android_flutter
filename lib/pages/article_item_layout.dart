@@ -74,7 +74,7 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                           : const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Text(widget.itemEntity.author?.isNotEmpty == true
                           ? widget.itemEntity.author!
-                          : widget.itemEntity.shareUser),
+                          : widget.itemEntity.shareUser??""),
                     ),
                     Expanded(
                       child: Align(

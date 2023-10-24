@@ -38,5 +38,8 @@ class Api {
 
   /// 获取搜索热词
   static const String hotKeywords = "hotkey/json";
+
+  /// 获取收藏文章列表
+  static const String collectList = "lg/collect/list/";
 }
 
