@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/pages/login_register_page.dart';
 import 'package:wan_android_flutter/pages/my_colllect_page.dart';
+import 'package:wan_android_flutter/pages/my_shared_page.dart';
 import 'package:wan_android_flutter/pages/setting_page.dart';
 import 'package:wan_android_flutter/user.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
@@ -82,29 +83,53 @@ class _MinePageState extends State<MinePage>
                   child: Column(
                     children: [
                       GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          Get.to(() => const MyColllectPage());
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                          child: const Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "我的收藏",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Expanded(
-                                  child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 15,
-                                      )))
-                            ],
-                          ),
-                        )),
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Get.to(() => const MyColllectPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "我的收藏",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 15,
+                                        )))
+                              ],
+                            ),
+                          )),
+                      GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Get.to(() => const MySharedPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "我的分享",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 15,
+                                        )))
+                              ],
+                            ),
+                          )),
                       GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' show debugPrint;
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/banner_entity.dart';
 import 'package:wan_android_flutter/network/bean/hot_keyword_entity.dart';
+import 'package:wan_android_flutter/network/bean/my_shared_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
@@ -27,6 +28,10 @@ class JsonConvert {
         (ArticleItemEntity).toString(): ArticleItemEntity.fromJson,
         (BannerEntity).toString(): BannerEntity.fromJson,
         (HotKeywordEntity).toString(): HotKeywordEntity.fromJson,
+        (MySharedDataEntity).toString(): MySharedDataEntity.fromJson,
+        (MySharedDataCoinInfo).toString(): MySharedDataCoinInfo.fromJson,
+        (MySharedDataShareArticles).toString(): MySharedDataShareArticles
+            .fromJson,
         (ProjectCategoryEntity).toString(): ProjectCategoryEntity.fromJson,
         (ProjectListDataEntity).toString(): ProjectListDataEntity.fromJson,
         (ProjectListDataItemEntity).toString(): ProjectListDataItemEntity
@@ -144,6 +149,18 @@ class JsonConvert {
     if (<HotKeywordEntity>[] is M) {
       return data.map<HotKeywordEntity>((Map<String, dynamic> e) =>
           HotKeywordEntity.fromJson(e)).toList() as M;
+    }
+    if (<MySharedDataEntity>[] is M) {
+      return data.map<MySharedDataEntity>((Map<String, dynamic> e) =>
+          MySharedDataEntity.fromJson(e)).toList() as M;
+    }
+    if (<MySharedDataCoinInfo>[] is M) {
+      return data.map<MySharedDataCoinInfo>((Map<String, dynamic> e) =>
+          MySharedDataCoinInfo.fromJson(e)).toList() as M;
+    }
+    if (<MySharedDataShareArticles>[] is M) {
+      return data.map<MySharedDataShareArticles>((Map<String, dynamic> e) =>
+          MySharedDataShareArticles.fromJson(e)).toList() as M;
     }
     if (<ProjectCategoryEntity>[] is M) {
       return data.map<ProjectCategoryEntity>((Map<String, dynamic> e) =>

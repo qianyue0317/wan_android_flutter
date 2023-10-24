@@ -44,5 +44,8 @@ class Api {
 
   /// 收藏网站列表
   static const String collectWebaddressList = "lg/collect/usertools/json";
+
+  /// 我的分享
+  static const String sharedList = "user/lg/private_articles/";
 }
 
