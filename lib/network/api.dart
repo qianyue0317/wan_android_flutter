@@ -47,5 +47,8 @@ class Api {
 
   /// 我的分享
   static const String sharedList = "user/lg/private_articles/";
+
+  /// 分享文章 post
+  static const String shareArticle = "lg/user_article/add/json";
 }
 

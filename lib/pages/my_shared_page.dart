@@ -9,6 +9,7 @@ import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/my_shared_data_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/article_item_layout.dart';
+import 'package:wan_android_flutter/pages/detail_page.dart';
 
 class MySharedPage extends StatefulWidget {
   const MySharedPage({Key? key}) : super(key: key);
@@ -25,6 +26,9 @@ class _MySharedPageState extends State<MySharedPage> {
   bool _over = true;
 
   late var dataObs = _data.obs;
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _linkController = TextEditingController();
 
   final EasyRefreshController _refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
@@ -50,6 +54,14 @@ class _MySharedPageState extends State<MySharedPage> {
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text("我的分享", style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: GestureDetector(
+                onTap: _showShareDialog,
+                child: const Icon(Icons.add, color: Colors.white),
+              ))
+        ],
       ),
       body: FutureBuilder(future: (() async {
         _pageIndex = 1;
@@ -88,6 +100,9 @@ class _MySharedPageState extends State<MySharedPage> {
               itemBuilder: (context, index) {
                 ArticleItemEntity itemEntity = _data[index];
                 return GestureDetector(
+                  onTap: () {
+                    Get.to(()=> DetailPage(itemEntity.link, itemEntity.title));
+                  },
                   behavior: HitTestBehavior.opaque,
                   child: ArticleItemLayout(
                       itemEntity: itemEntity,
@@ -129,6 +144,84 @@ class _MySharedPageState extends State<MySharedPage> {
       Fluttertoast.showToast(
           msg: (collected ? "取消失败 -- " : "收藏失败 -- ") +
               (res.errorMsg ?? res.errorCode.toString()));
+    }
+  }
+
+  _showShareDialog() async {
+    await showModalBottomSheet<bool?>(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: Duration.zero,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, top: 32),
+                    child: TextField(
+                        controller: _titleController,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            hintText: "文章标题",
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16))))),
+                  ),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 16, right: 16, top: 16),
+                      child: TextField(
+                          controller: _linkController,
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              hintText: "文章链接",
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16)))))),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      child: TextButton(
+                          onPressed: () async {
+                            bool result = await _onShareClick();
+                            if (result) {
+                              Get.back();
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16))),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: const Text(
+                              "分享",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )))
+                ],
+              ));
+        });
+  }
+
+  Future<bool> _onShareClick() async {
+    FocusScope.of(context).unfocus();
+    AppResponse<dynamic> res = await HttpGo.instance.post(Api.shareArticle,
+        data: {"title": _titleController.text, "link": _linkController.text});
+    if (res.isSuccessful) {
+      // 分享成功
+      Fluttertoast.showToast(msg: "分享成功！");
+      await _onRefresh();
+      return true;
+    } else {
+      Fluttertoast.showToast(msg: "分享失败--${res.errorMsg}");
+      return false;
     }
   }
 }
