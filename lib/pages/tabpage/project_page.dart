@@ -9,7 +9,6 @@ import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/detail_page.dart';
-import 'package:wan_android_flutter/utils/log_util.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key});
@@ -161,7 +160,6 @@ class _ProjectListPageState extends State<ProjectListPage>
 
   Widget _generateItem(BuildContext context, int index) {
     var entity = data[index];
-    WanLog.i("title: ${entity.title}");
     return SizedBox(
         width: double.infinity,
         child: Card(
