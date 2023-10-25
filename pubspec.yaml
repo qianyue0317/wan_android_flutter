@@ -53,6 +53,7 @@ dependencies:
   url_strategy: ^0.2.0
   # html解析
   flutter_widget_from_html: ^0.10.6
+  flutter_html: ^3.0.0-beta.2
 #  html: ^0.15.4
   url_launcher: ^6.1.14
 

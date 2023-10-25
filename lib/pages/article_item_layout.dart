@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 
 class ArticleItemLayout extends StatefulWidget {
@@ -71,20 +72,23 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                 Row(
                   children: [
                     if (widget.itemEntity.type == 1)
-                      const Text(
-                        "置顶",
-                        style: TextStyle(color: Colors.red),
-                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "置顶",
+                            style: TextStyle(color: Colors.red),
+                          )),
                     Container(
                       padding: widget.itemEntity.type == 1
                           ? const EdgeInsets.fromLTRB(8, 0, 0, 0)
-                          : const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          : const EdgeInsets.fromLTRB(12, 0, 0, 0),
                       child: Text(widget.itemEntity.author?.isNotEmpty == true
                           ? widget.itemEntity.author!
                           : widget.itemEntity.shareUser ?? ""),
                     ),
                     Expanded(
-                      child: Align(
+                      child: Container(
+                        padding: const EdgeInsets.only(right: 8),
                         alignment: Alignment.centerRight,
                         child: Text(publishTime),
                       ),
@@ -92,26 +96,43 @@ class _ArticleItemState extends State<ArticleItemLayout> {
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.fromLTRB(10, 8, 8, 8),
                   child: Row(
                     children: [
                       Expanded(
-                          child: Text(
-                        widget.itemEntity.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                          child: Html(
+                        data: widget.itemEntity.title,
+                        style: {
+                          "html": Style(
+                              margin: Margins.zero,
+                              maxLines: 2,
+                              textOverflow: TextOverflow.ellipsis,
+                              fontSize: FontSize(14),
+                              padding: HtmlPaddings.zero,
+                              alignment: Alignment.topLeft),
+                          "body": Style(
+                              margin: Margins.zero,
+                              maxLines: 2,
+                              textOverflow: TextOverflow.ellipsis,
+                              fontSize: FontSize(14),
+                              padding: HtmlPaddings.zero,
+                              alignment: Alignment.topLeft)
+                        },
                       ))
                     ],
                   ),
                 ),
                 Row(
                   children: [
-                    Text(sb.toString()),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(sb.toString())),
                     Expanded(
                         child: Container(
                             width: 24,
                             height: 24,
                             alignment: Alignment.topRight,
+                            padding: const EdgeInsets.only(right: 8),
                             child: Builder(builder: (context) {
                               if (widget.showCollectBtn == false) {
                                 return Container();

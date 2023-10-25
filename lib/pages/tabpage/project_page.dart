@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_page.dart';
 import 'package:wan_android_flutter/network/api.dart';
@@ -8,6 +9,7 @@ import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/request_util.dart';
 import 'package:wan_android_flutter/pages/detail_page.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key});
@@ -150,7 +152,7 @@ class _ProjectListPageState extends State<ProjectListPage>
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 crossAxisCount: 2,
-                childAspectRatio: 0.5,
+                childAspectRatio: 0.45,
               ),
             ));
       },
@@ -159,6 +161,7 @@ class _ProjectListPageState extends State<ProjectListPage>
 
   Widget _generateItem(BuildContext context, int index) {
     var entity = data[index];
+    WanLog.i("title: ${entity.title}");
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -181,15 +184,25 @@ class _ProjectListPageState extends State<ProjectListPage>
                             ),
                           ))),
                   Container(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                      width: double.infinity,
-                      height: 44,
-                      child: Text(
-                        entity.title,
-                        maxLines: 2,
-                        style: const TextStyle(fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ))
+                      padding: const EdgeInsets.only(top: 8),
+                      height: 46,
+                      child:
+                          Html(data: entity.title, shrinkWrap: false, style: {
+                        "html": Style(
+                            margin: Margins.zero,
+                            maxLines: 2,
+                            textOverflow: TextOverflow.ellipsis,
+                            fontSize: FontSize(12),
+                            padding: HtmlPaddings.zero,
+                            alignment: Alignment.topLeft),
+                        "body": Style(
+                            margin: Margins.zero,
+                            maxLines: 2,
+                            textOverflow: TextOverflow.ellipsis,
+                            fontSize: FontSize(12),
+                            padding: HtmlPaddings.zero,
+                            alignment: Alignment.topLeft)
+                      }))
                 ],
               ),
             )));

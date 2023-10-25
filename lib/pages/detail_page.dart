@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailPage extends StatefulWidget {
@@ -37,7 +38,9 @@ class _DetailPageState extends State<DetailPage> {
           onPageStarted: (url) {},
           onProgress: (progress) {},
           onPageFinished: (content) {
-            setState(() {finish = true;});
+            setState(() {
+              finish = true;
+            });
           }))
       ..loadRequest(Uri.parse(url));
   }
@@ -46,9 +49,26 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          title,
-          style: const TextStyle(color: Colors.white),
+        title: Html(
+          data: title,
+          style: {
+            "html": Style(
+                color: Colors.white,
+                margin: Margins.zero,
+                maxLines: 1,
+                textOverflow: TextOverflow.ellipsis,
+                fontSize: FontSize(16),
+                padding: HtmlPaddings.zero,
+                alignment: Alignment.topLeft),
+            "body": Style(
+                color: Colors.white,
+                margin: Margins.zero,
+                maxLines: 1,
+                textOverflow: TextOverflow.ellipsis,
+                fontSize: FontSize(16),
+                padding: HtmlPaddings.zero,
+                alignment: Alignment.topLeft)
+          },
         ),
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
