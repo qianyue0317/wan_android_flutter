@@ -10,20 +10,15 @@ class DetailPage extends StatefulWidget {
   final String title;
 
   @override
-  // ignore: no_logic_in_create_state
-  State createState() => _DetailPageState(url, title);
+  State createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  _DetailPageState(this.url, this.title);
+  _DetailPageState();
 
   Key progressKey = GlobalKey();
 
   Key contentKey = GlobalKey();
-
-  String url;
-
-  String title;
 
   final WebViewController _controller = WebViewController();
 
@@ -42,7 +37,7 @@ class _DetailPageState extends State<DetailPage> {
               finish = true;
             });
           }))
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -51,7 +46,7 @@ class _DetailPageState extends State<DetailPage> {
       appBar: AppBar(
         titleSpacing: 0,
         title: Html(
-          data: title,
+          data: widget.title,
           style: {
             "html": Style(
                 color: Colors.white,
