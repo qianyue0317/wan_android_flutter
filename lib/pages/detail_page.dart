@@ -49,6 +49,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         title: Html(
           data: title,
           style: {
@@ -57,7 +58,7 @@ class _DetailPageState extends State<DetailPage> {
                 margin: Margins.zero,
                 maxLines: 1,
                 textOverflow: TextOverflow.ellipsis,
-                fontSize: FontSize(16),
+                fontSize: FontSize(18),
                 padding: HtmlPaddings.zero,
                 alignment: Alignment.topLeft),
             "body": Style(
@@ -65,7 +66,7 @@ class _DetailPageState extends State<DetailPage> {
                 margin: Margins.zero,
                 maxLines: 1,
                 textOverflow: TextOverflow.ellipsis,
-                fontSize: FontSize(16),
+                fontSize: FontSize(18),
                 padding: HtmlPaddings.zero,
                 alignment: Alignment.topLeft)
           },
