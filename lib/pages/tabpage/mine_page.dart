@@ -133,6 +133,30 @@ class _MinePageState extends State<MinePage>
                       GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
+                            Get.to(() => const MySharedPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                            child: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "我的待办",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 15,
+                                        )))
+                              ],
+                            ),
+                          )),
+                      GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
                             Get.to(() => const SettingPage());
                           },
                           child: Container(
