@@ -8,6 +8,7 @@ import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/banner_entity.dart';
 import 'package:wan_android_flutter/network/bean/hot_keyword_entity.dart';
 import 'package:wan_android_flutter/network/bean/my_shared_data_entity.dart';
+import 'package:wan_android_flutter/network/bean/my_todo_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_category_entity.dart';
 import 'package:wan_android_flutter/network/bean/project_list_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/user_info_entity.dart';
@@ -32,6 +33,8 @@ class JsonConvert {
         (MySharedDataCoinInfo).toString(): MySharedDataCoinInfo.fromJson,
         (MySharedDataShareArticles).toString(): MySharedDataShareArticles
             .fromJson,
+        (MyTodoDataEntity).toString(): MyTodoDataEntity.fromJson,
+        (MyTodoDataItem).toString(): MyTodoDataItem.fromJson,
         (ProjectCategoryEntity).toString(): ProjectCategoryEntity.fromJson,
         (ProjectListDataEntity).toString(): ProjectListDataEntity.fromJson,
         (ProjectListDataItemEntity).toString(): ProjectListDataItemEntity
@@ -161,6 +164,14 @@ class JsonConvert {
     if (<MySharedDataShareArticles>[] is M) {
       return data.map<MySharedDataShareArticles>((Map<String, dynamic> e) =>
           MySharedDataShareArticles.fromJson(e)).toList() as M;
+    }
+    if (<MyTodoDataEntity>[] is M) {
+      return data.map<MyTodoDataEntity>((Map<String, dynamic> e) =>
+          MyTodoDataEntity.fromJson(e)).toList() as M;
+    }
+    if (<MyTodoDataItem>[] is M) {
+      return data.map<MyTodoDataItem>((Map<String, dynamic> e) =>
+          MyTodoDataItem.fromJson(e)).toList() as M;
     }
     if (<ProjectCategoryEntity>[] is M) {
       return data.map<ProjectCategoryEntity>((Map<String, dynamic> e) =>

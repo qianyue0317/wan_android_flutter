@@ -1,6 +1,7 @@
 import 'package:wan_android_flutter/generated/json/base/json_convert_content.dart';
-import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
 import 'package:wan_android_flutter/network/bean/my_shared_data_entity.dart';
+import 'package:wan_android_flutter/network/bean/article_data_entity.dart';
+
 
 MySharedDataEntity $MySharedDataEntityFromJson(Map<String, dynamic> json) {
   final MySharedDataEntity mySharedDataEntity = MySharedDataEntity();
@@ -101,11 +102,10 @@ MySharedDataShareArticles $MySharedDataShareArticlesFromJson(
   if (curPage != null) {
     mySharedDataShareArticles.curPage = curPage;
   }
-  final List<ArticleItemEntity>? datas = (json['datas'] as List<
-      dynamic>?)?.map(
-          (e) =>
-      jsonConvert.convert<ArticleItemEntity>(
-          e) as ArticleItemEntity).toList();
+  final List<ArticleItemEntity>? datas = (json['datas'] as List<dynamic>?)
+      ?.map(
+          (e) => jsonConvert.convert<ArticleItemEntity>(e) as ArticleItemEntity)
+      .toList();
   if (datas != null) {
     mySharedDataShareArticles.datas = datas;
   }

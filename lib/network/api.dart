@@ -52,6 +52,6 @@ class Api {
   static const String shareArticle = "lg/user_article/add/json";
 
   /// todoList
-  static const String totoList = "lg/todo/v2/list/";
+  static const String todoList = "lg/todo/v2/list/";
 }
 
