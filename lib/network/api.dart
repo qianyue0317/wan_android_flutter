@@ -50,5 +50,8 @@ class Api {
 
   /// 分享文章 post
   static const String shareArticle = "lg/user_article/add/json";
+
+  /// todoList
+  static const String totoList = "lg/todo/v2/list/";
 }
 
