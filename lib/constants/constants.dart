@@ -6,5 +6,7 @@ class Constant {
 
   static const int successCode = 0;
 
+  static const int invalidateToken = -1001;
+
   static const int otherError = -9999;
 }

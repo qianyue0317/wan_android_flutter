@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import "package:path_provider/path_provider.dart";
+import 'package:wan_android_flutter/user.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
@@ -115,6 +116,9 @@ class HttpGo {
           onReceiveProgress: receiveCallback);
       Map<String, dynamic> map = json.decode(response.data.toString());
       result = AppResponse.fromJson(map);
+      if (result.errorCode == Constant.invalidateToken) {
+          User().logout();
+      }
     } on DioException catch (error) {
       WanLog.e("request error-- $error");
       result = AppResponse(Constant.otherError, error.message, null);
