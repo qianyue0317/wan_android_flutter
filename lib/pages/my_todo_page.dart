@@ -47,7 +47,10 @@ class _MyTodoListPageState extends State<MyTodoListPage> {
           backgroundColor: Theme.of(context).primaryColor,
           iconTheme: const IconThemeData(color: Colors.white),
         ),
-        body: SizedBox(width: double.infinity, height: double.infinity, child:_getBody()));
+        body: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: _getBody()));
   }
 
   Widget _getBody() {
@@ -73,7 +76,7 @@ class _MyTodoListPageState extends State<MyTodoListPage> {
 
   Widget _buildContent() {
     if (_data.isEmpty) {
-        return const EmptyWidget();
+      return const EmptyWidget();
     }
     return EasyRefresh.builder(
       controller: _refreshController,
@@ -113,8 +116,13 @@ class _MyTodoListPageState extends State<MyTodoListPage> {
   }
 
   Widget _generateItemLayout(MyTodoDataItem item) {
-    return Container(
-      child: Text(item.title),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(
+          child: Text(item.title),
+        )
+      ],
     );
   }
 }
