@@ -8,6 +8,9 @@ import 'package:wan_android_flutter/network/request_util.dart';
 
 import '../base/base_page.dart';
 
+const List<String> typeList = ["工作", "生活", "编程", "面试", "娱乐", "剪辑"];
+const List<String> levelList = ["低", "中", "高"];
+
 class MyTodoListPage extends StatefulWidget {
   const MyTodoListPage({Key? key}) : super(key: key);
 
@@ -116,13 +119,61 @@ class _MyTodoListPageState extends State<MyTodoListPage> {
   }
 
   Widget _generateItemLayout(MyTodoDataItem item) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
-          child: Text(item.title),
-        )
-      ],
-    );
+    bool isFinished = item.status == 1;
+    return Card(
+        surfaceTintColor: Colors.white,
+        color: Colors.white,
+        elevation: 4,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+                child: Container(
+              height: 100,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.title,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(item.dateStr),
+                            Text(typeList[
+                                ((item.type ?? 1) - 1) % typeList.length]),
+                            Text(levelList[
+                                ((item.priority ?? 1) - 1) % levelList.length])
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      TextButton(onPressed: () {}, child: Text("标记未完成")),
+                      // TextButton(onPressed: () {}, child: Text("删除"))
+                    ],
+                  )
+                ],
+              ),
+            )),
+            if (isFinished)
+              Positioned(
+                  child: Image.asset(
+                "assets/images/ic_finish.png",
+                width: 80,
+                height: 80,
+              ))
+          ],
+        ));
   }
 }
